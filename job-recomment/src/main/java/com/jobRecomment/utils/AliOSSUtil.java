@@ -25,10 +25,10 @@ import java.util.List;
 @Component
 public class AliOSSUtil {
 
-    private static final String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";//AliOSSConfig.getInstance().getEndpoint();
-    private static final String accessKeyId = "LTAI5tPHe97h73cNRi4fCnjB";//AliOSSConfig.getInstance().getAccessKeyId();
-    private static final String accessKeySecret = "39co7uHaieKBouQmSy5Id2NHrSSj69";//AliOSSConfig.getInstance().getAccessKeySecret();
-    private static final String bucketName = "job-test";//AliOSSConfig.getInstance().getBucketName();
+    private static final String endpoint = "";
+    private static final String accessKeyId = "";
+    private static final String accessKeySecret = "";
+    private static final String bucketName = "";
     /**
      * 将文件上传到阿里OSS
      *
