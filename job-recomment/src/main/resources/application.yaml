@@ -1,0 +1,50 @@
+spring:
+  application:
+    #应用的名称，可选
+    name: job_recommendation
+  datasource:
+    url: jdbc:mysql://localhost:3306/job_recommendation?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      enabled: true #是否启用http上传处理
+      max-request-size: 100MB #设置总上传的数据大小，最大请求文件的大小
+      max-file-size: 20MB #设置单个文件最大长度
+      file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
+
+
+mybatis-plus:
+  configuration:
+    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID
+  type-aliases-package: com.jobRecomment.domain.bean
+  mapper-locations: classpath*:/mapper/**/*.mapper
+
+
+
+knife4j:
+  enable: true
+  openapi:
+    title: 职位推荐系统接口文档
+    description: "职位推荐系统接口文档"
+    email: 2982606972@qq.com
+    concat: HUANG
+    url: https://www.baidu.com
+    version: v1.0.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - com.jobRecomment.controller
+server:
+  port: 9090
+
+
