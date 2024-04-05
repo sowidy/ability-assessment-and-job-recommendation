@@ -1,12 +1,15 @@
 <template>
   <div>
     <header>
-      <el-input v-model="input"  placeholder="请输入内容" />
+      <el-input v-model="input" placeholder="请输入内容" />
       <el-button type="primary" round @click="search">搜索</el-button>
       <el-button
         type="danger"
         round
-      >批量删除</el-button>
+        @click="handleDeleteByIds"
+        :disabled="multipleSelection.length == 0"
+        >批量删除</el-button
+      >
     </header>
     <main>
       <el-table
@@ -19,7 +22,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" />
-        <el-table-column type="index" label="序号"  width="100"/>
+        <el-table-column type="index" label="序号" width="100" />
         <!-- <el-table-column prop="avatar" label="头像" width="120">
           <template slot-scope="scope">
             <div>
@@ -27,7 +30,7 @@
             </div>
           </template>
         </el-table-column> -->
-        <el-table-column prop="name" label="姓名" width="200" >
+        <el-table-column prop="name" label="姓名" width="200">
           <template slot-scope="scope">
             <div>
               <el-tag type="success">{{ scope.row.name }}</el-tag>
@@ -40,8 +43,8 @@
             <div>{{ getCurrentAge(scope.row.bornYear) }}</div>
           </template>
         </el-table-column> -->
-        <el-table-column prop="remarkText" label="反馈信息"/>
-        <el-table-column prop="totalScore" label="系统总打分" width="200"/>
+        <el-table-column prop="remarkText" label="反馈信息" />
+        <el-table-column prop="totalScore" label="系统总打分" width="200" />
         <!-- <el-table-column prop="school" label="学校" /> -->
         <!-- <el-table-column prop="major" label="专业" /> -->
         <!-- <el-table-column label="操作">
@@ -74,61 +77,62 @@
 <script>
 // import { queryStudent, deleteByIds } from '@/api/student'
 export default {
-  name: 'Remark',
+  name: "Remark",
   data() {
     return {
-      input: '',
+      input: "",
       multipleSelection: [],
       remarkList: [],
       condition: {
-        isAsc: 'true',
-        name: '',
+        isAsc: "true",
+        name: "",
         pageNo: 1,
         pageSize: 10,
-        sortBy: '',
-        remark:'',
-        remarkText:'',
-        totalScore:'',
-      }
-    }
+        sortBy: "",
+        remark: "",
+        remarkText: "",
+        totalScore: "",
+      },
+    };
   },
   mounted() {
-    this.getRemarkListList()
+    this.getRemarkListList();
   },
   methods: {
     toggleSelection(rows) {
       if (rows) {
         rows.forEach((row) => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
       } else {
-        this.$refs.multipleTable.clearSelection()
+        this.$refs.multipleTable.clearSelection();
       }
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val
+      this.multipleSelection = val;
     },
     getRemarkListList() {
-      this.$API.user.getRemarkVoByPage(this.condition)
+      this.$API.user
+        .getRemarkVoByPage(this.condition)
         .then((resp) => {
-          console.log(resp)
+          console.log(resp);
           if (resp.data.code === 0) {
-            this.remarkList = resp.data.data
+            this.remarkList = resp.data.data;
           }
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
-      this.condition.pageNo = val
-      this.getRemarkListList()
+      console.log(`当前页: ${val}`);
+      this.condition.pageNo = val;
+      this.getRemarkListList();
     },
     getCurrentAge(bornYear) {
-      const birthDate = new Date(bornYear)
-      const currentDate = new Date()
-      const age = currentDate.getFullYear() - birthDate.getFullYear()
+      const birthDate = new Date(bornYear);
+      const currentDate = new Date();
+      const age = currentDate.getFullYear() - birthDate.getFullYear();
 
       // 如果当前月份小于出生月份，或者当前月份等于出生月份但是当前日期小于出生日期，则年龄减一
       if (
@@ -136,56 +140,70 @@ export default {
         (currentDate.getMonth() === birthDate.getMonth() &&
           currentDate.getDate() < birthDate.getDate())
       ) {
-        return age - 1
+        return age - 1;
       }
 
-      return age
+      return age;
     },
     handleDeleteByIds() {
-      const selectedIds = this.multipleSelection.map((row) => row.id)
-      // console.log(selectedIds)
-      this.$API.user.deleteByIds(selectedIds)
-        .then((resp) => {
-          // console.log(resp.data);
-          if (resp.data.code === 0) {
-            this.getRemarkListList()
-            this.$message({
-              type: 'success',
-              message: '操作成功'
+      this.$confirm("此操作将永久删除选择的学生反馈信息, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          const selectedIds = this.multipleSelection.map((row) => row.id);
+          this.$API.user
+            .deleteByIds(selectedIds)
+            .then((resp) => {
+              // console.log(resp.data);
+              if (resp.data.code === 0) {
+                this.getStudentList();
+                this.$notify({
+                  type: "success",
+                  message: "操作成功",
+                });
+              } else this.$notify.error(resp.data.message);
+              // 在这里处理删除成功后的逻辑，例如刷新数据列表等
             })
-          } else this.$message.error(resp.data.message)
-          // 在这里处理删除成功后的逻辑，例如刷新数据列表等
+            .catch((err) => {
+              console.error(err);
+              // 在这里处理删除失败后的逻辑
+            });
         })
-        .catch((err) => {
-          console.error(err)
-          // 在这里处理删除失败后的逻辑
-        })
+        .catch(() => {
+          this.$notify({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
     handleDeleteById(row) {
       // console.log(row)
-      this.$API.user.deleteByIds(row.id)
+      this.$API.user
+        .deleteByIds(row.id)
         .then((resp) => {
           // console.log(resp.data);
           if (resp.data.code === 0) {
-            this.getRemarkListList()
-            this.$message({
-              type: 'success',
-              message: '操作成功'
-            })
-          } else this.$message.error(resp.data.message)
+            this.getRemarkListList();
+            this.$notify({
+              type: "success",
+              message: "操作成功",
+            });
+          } else this.$notify.error(resp.data.message);
           // 在这里处理删除成功后的逻辑，例如刷新数据列表等
         })
         .catch((err) => {
-          console.error(err)
+          console.error(err);
           // 在这里处理删除失败后的逻辑
-        })
+        });
     },
-    search(){
-      this.condition.name = this.input
+    search() {
+      this.condition.name = this.input;
       this.getRemarkListList();
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

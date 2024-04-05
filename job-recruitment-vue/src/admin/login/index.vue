@@ -1,11 +1,13 @@
 <template>
   <div class="login-container">
+    <!-- <el-card>
+      <div> -->
     <div class="left">
       <el-carousel trigger="click" height="550px">
         <el-carousel-item v-for="(item, index) in items" :key="index">
           <!-- <h3 class="small">{{ item }}</h3> -->
           <div>
-            <img :src="item.img" alt="" />
+            <img :src="item.img" style="max-width: 100%;max-height: 100%;" alt="" />
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -68,9 +70,16 @@
         >
           登录</el-button
         >
-        <el-button type="primary" style="margin :0 auto" @click="$router.push('/home')"><i class="el-icon-back"></i>返回前台</el-button>
+        <el-button
+          type="primary"
+          style="margin: 0 auto"
+          @click="$router.push('/home')"
+          ><i class="el-icon-back"></i>返回前台</el-button
+        >
       </el-form>
     </div>
+    <!-- </div>
+    </el-card> -->
   </div>
 </template>
 
@@ -112,17 +121,17 @@ export default {
       redirect: undefined,
       items: [
         {
-          img: "https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/pefoming-thumb.png",
+          img: "https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/admin_car3%28%E5%B7%B2%E5%A4%84%E7%90%86%29.png",
         },
         {
-          img: "https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/timely-work.png",
+          img: "https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/admin_car2%28%E5%B7%B2%E5%A4%84%E7%90%86%29.png",
         },
         {
-          img: "https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/choose1.png",
+          img: "https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/admin_car%28%E5%B7%B2%E5%A4%84%E7%90%86%29.png",
         },
-        {
-          img: "https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/bannerthumb1.png",
-        },
+        // {
+        //   img: "https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/bannerthumb1.png",
+        // },
       ],
     };
   },
@@ -226,51 +235,82 @@ export default {
   // height: 742px;
   height: 100vh;
   width: 100%;
+  margin: 0 auto;
   // background-color: $bg;
   overflow: hidden;
+  // background: url("~@/assets/bg.png");
+  // background-color: #f2f2f2;
+  background-position: center center;
+  background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/admin_back.png)
+    no-repeat;
+  background-size: 100% 100%;
   display: flex;
   justify-content: space-around;
-  background: url("~@/assets/bg.png");
-  background-color: #f2f2f2;
-  background-position: center center;
+  // background: linear-gradient(
+  //   to right bottom;rgb(110, 197, 159),
+  //   rgb(65, 148, 173)
+  // );
+  // .el-card {
+  //   width: 80%;
+  //   height: 80%;
+  //   border: 1px saddlebrown solid;
+  //   border-radius: 20px;
+  //   // display: flex;
+  //   margin: 0 auto;
+  //   margin-top: 5%;
+  //   div {
+  //     display: flex;
+  //     justify-content: space-around;
+  // padding: 0 10%;
+  // padding:0 10%;
   .left {
     // border: 1px saddlebrown solid;
-    width: 50%;
-    margin: 0 auto;
+    width: 40%;
+    padding-left: 20%;
+    padding-top: 5%;
+    // margin-left: 10%;
+
+    // margin: 0 auto;
     .el-carousel {
-      margin: 0 auto;
-      margin-top: 10%;
+      // margin: 0 auto;
+      // margin-top: 10%;
+      // max-width: 100%;
+      // height: 100%;
     }
 
     .el-carousel-item {
+      // max-width: 100%;
       div {
         // height: 550px;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      img {
-        object-fit: cover;
-        max-width: 100%;
-        max-height: 100%;
+        // height: 100%;
+        // max-width: 100%;
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+        img {
+          // object-fit: cover;
+          // max-width: 100%;
+          // max-height: 100%;
+        }
       }
     }
   }
   .right {
     // border: 1px rgb(146, 124, 108) solid;
     // margin-bottom: 13%;
-    margin-right: 5%;
+    // margin-right: 5%;
     height: 100%;
+    width: 40%;
+    margin: 4%;
     .login-form {
       // background: rgba(0, 0, 0, 0.1);
       background: #fff;
       border-radius: 20px;
       height: 53%;
       position: relative;
-      width: 520px;
+      width: 420px;
       max-width: 100%;
-      padding: 160px 35px 0;
+      padding: 50px 35px 0;
       margin: 0 auto;
       overflow: hidden;
       margin-top: 13%;
@@ -321,6 +361,8 @@ export default {
       cursor: pointer;
       user-select: none;
     }
+    //   }
+    // }
   }
 }
 </style>

@@ -3,8 +3,8 @@
     <Header></Header>
     <div class="container">
       <div class="headbar">
-        <div style="height: 100%; width: 100%; position: relative">
-          <video
+        <div>
+          <!-- <videostyle="height: 100%; width: 100%; position: relative"
             src="https://job-test.oss-cn-hangzhou.aliyuncs.com/%E7%99%BE%E5%BA%A6%E6%99%BA%E8%83%BD%E4%BA%91%E5%8D%83%E5%B8%86%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B3%E5%8F%B0ModelBuilder2.mp4"
             autoplay
             loop
@@ -18,7 +18,7 @@
               left: 0;
               z-index: 0;
             "
-          ></video>
+          ></video> -->
           <el-card>
             <div>
               <div class="expectation">
@@ -74,7 +74,7 @@
                   >
                 </div>
               </div>
-              <div class="tags-list">
+              <!-- <div class="tags-list">
                 <span>筛选</span>
                 <el-select v-model="value" placeholder="企业类型">
                   <el-option
@@ -117,7 +117,7 @@
                 </el-select>
 
                 <el-button type="info" plain icon="el-icon-delete">清空筛选条件</el-button>
-              </div>
+              </div> -->
             </div>
           </el-card>
         </div>
@@ -500,7 +500,7 @@ export default {
   // border: 1px solid darkcyan;
   .headbar {
     .el-card {
-      // background-image: linear-gradient(135deg, #00b5bc 0%, #3e8ef0 100%);
+      background-image: linear-gradient(135deg, #00b5bc 0%, #3e8ef0 100%);
       // margin-left: 5%;
       // margin-right: 2%;
       border-radius: 20px;
@@ -526,7 +526,7 @@ export default {
       .tags-list {
         position: relative;
         .el-select {
-          margin: 0 10px;
+          margin: 0 5px;
         }
       }
     }

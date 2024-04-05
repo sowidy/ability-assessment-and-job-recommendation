@@ -53,7 +53,8 @@ public class AdminController {
 
     @ApiOperation("添加管理员接口")
     @PostMapping("/add")
-    public Result addAdmin(@Param("phone") String phone, @Param("password") String password){
+    public Result addAdmin(@RequestParam("phone") String phone, @RequestParam("password") String password){
+        System.out.println(phone+":"+password);
         Admin admin = adminService.getByPhone(phone);
         if(admin != null){
             return Result.error("该管理员已存在");
@@ -68,5 +69,12 @@ public class AdminController {
         Map<String,Object> map = ThreadLocalUtil.get();
         String phone = (String) map.get("phone");
         return Result.success(adminService.getByPhone(phone));
+    }
+
+    @ApiOperation("修改管理员信息")
+    @PostMapping("/update")
+    public Result updateAdmin(@RequestBody Admin admin){
+        adminService.updateAdminById(admin);
+        return Result.success();
     }
 }

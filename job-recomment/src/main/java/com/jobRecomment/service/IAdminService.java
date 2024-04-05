@@ -16,4 +16,6 @@ public interface IAdminService extends IService<Admin> {
     Admin getByPhone(String phone);
 
     void addAdmin(String phone, String password);
+
+    void updateAdminById(Admin admin);
 }

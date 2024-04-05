@@ -10,10 +10,13 @@
           "
           >大学生能力评估与职位推荐系统</span
         >
-
         <div class="info">
+          <div class="admin-name-block">
+            <h2 class="admin-name">{{ name }}</h2>
+          </div>
           <el-dropdown>
             <el-avatar icon="el-icon-user-solid" :src="avatar"></el-avatar>
+
             <el-dropdown-menu>
               <el-dropdown-item @click.native="$router.push('/admin/dashboard')"
                 >主页</el-dropdown-item
@@ -29,7 +32,7 @@
         <el-aside width="200px">
           <el-col :span="24">
             <el-menu
-              default-active="1"
+              :default-active="currentMenuIndex"
               class="el-menu-vertical-demo"
               @open="handleOpen"
               @close="handleClose"
@@ -51,10 +54,10 @@
                 </template>
                 <el-menu-item-group>
                   <router-link to="/admin/manage/student">
-                    <el-menu-item index="1-1">学生</el-menu-item>
+                    <el-menu-item index="2-1">学生</el-menu-item>
                   </router-link>
                   <router-link to="/admin/manage/enterprise">
-                    <el-menu-item index="1-2">企业</el-menu-item>
+                    <el-menu-item index="2-2">企业</el-menu-item>
                   </router-link>
                 </el-menu-item-group>
               </el-submenu>
@@ -86,7 +89,23 @@ import { mapState } from "vuex";
 export default {
   name: "AdminLatout",
   computed: {
-    ...mapState("admin", ["avatar"]),
+    ...mapState("admin", ["avatar", "name"]),
+    currentMenuIndex() {
+      switch (this.$route.path) {
+        case "/admin/dashboard":
+          return "1";
+        case "/admin/manage/student":
+          return "2-1";
+        case "/admin/manage/enterprise":
+          return "2-2";
+        case "/admin/application":
+          return "3";
+        case "/admin/remark":
+          return "4";
+        default:
+          return "1";
+      }
+    },
   },
   methods: {
     async logout() {
@@ -116,6 +135,18 @@ export default {
     position: absolute;
     top: 10px;
     right: 40px;
+    .admin-name-block {
+      // display: inline;
+      position: relative;
+      .admin-name {
+        color: black;
+        padding: 0 15px;
+        // display: inline;
+        position: absolute;
+        top: -10px;
+        left: -90px;
+      }
+    }
   }
 }
 </style>

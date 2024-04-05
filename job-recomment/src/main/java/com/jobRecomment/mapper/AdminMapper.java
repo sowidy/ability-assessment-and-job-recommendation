@@ -4,6 +4,7 @@ import com.jobRecomment.domain.bean.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -17,5 +18,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AdminMapper extends BaseMapper<Admin> {
 
     @Insert("insert into admin (phone,password,create_time) values(#{phone},#{password},now())")
-    void add(String phone, String md5String);
+    void add(@Param("phone") String phone,@Param("password") String md5String);
 }

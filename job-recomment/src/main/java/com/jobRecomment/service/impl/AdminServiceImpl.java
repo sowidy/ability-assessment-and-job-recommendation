@@ -6,7 +6,10 @@ import com.jobRecomment.mapper.AdminMapper;
 import com.jobRecomment.service.IAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jobRecomment.utils.Md5Util;
+import com.jobRecomment.utils.ThreadLocalUtil;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -27,5 +30,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public void addAdmin(String phone, String password) {
         baseMapper.add(phone, Md5Util.getMD5String(password));
+    }
+
+    @Override
+    public void updateAdminById(Admin admin) {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        Integer id = (Integer) map.get("id");
+        admin.setId(id);
+        updateById(admin);
     }
 }

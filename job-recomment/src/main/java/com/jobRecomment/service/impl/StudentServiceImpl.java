@@ -55,6 +55,11 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
+    public void updateUserById(Student student) {
+        student.setUpdateTime(LocalDateTime.now());
+        updateById(student);
+    }
+    @Override
     public List<Student> getUserList() {
         return list();
     }
@@ -215,5 +220,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         Integer id = (Integer) map.get("id");
         baseMapper.updatePhone(id,phone);
     }
+
 
 }

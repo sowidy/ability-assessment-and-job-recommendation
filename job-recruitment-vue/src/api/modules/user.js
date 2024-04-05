@@ -63,6 +63,7 @@ export function uploadStudentAvatar(avatar, state) {
  * @returns
  */
 export function updateUser(params, state) {
+  console.log(params);
   return request({
     url: `/${state}/update`,
     method: 'post',

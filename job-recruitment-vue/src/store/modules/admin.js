@@ -23,6 +23,7 @@ const actions = {
         const { name, avatar } = data.data
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_ADMININFO',data.data);
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -60,6 +61,9 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ADMININFO:(state,data)=>{
+    state.adminInfo=data;
   }
 }
 const getDefaultState = () => {
@@ -73,7 +77,8 @@ const getDefaultState = () => {
 const state = {
   token: getToken(),
   name: '',
-  avatar: ''
+  avatar: '',
+  adminInfo:''
 }
 
 export default {

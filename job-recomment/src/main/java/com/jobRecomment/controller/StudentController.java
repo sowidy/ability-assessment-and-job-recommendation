@@ -79,7 +79,8 @@ public class StudentController {
     @PostMapping("/update")
     @ApiOperation("更新用户信息接口")
     public Result updateUser(@RequestBody Student user){
-        studentService.updateUser(user);
+        if(user.getId() == null) studentService.updateUser(user);
+        else studentService.updateUserById(user);
         return Result.success();
     }
 

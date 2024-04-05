@@ -1,80 +1,94 @@
 <template>
-  <div class="login-form">
-    <Header></Header>
-    <!-- <div class="home"><i class="el-icon-s-home"></i></div> -->
-    <div class="center middle">
-      <el-card>
-        <div class="front">
-          <div class="formtable">
-            <el-form
-              :model="userForm"
-              :rules="rules"
-              ref="userForm"
-              label-width="100px"
-              class="demo-userForm"
-            >
-              <h2>注 册</h2>
-              <el-tabs
-                v-model="state"
-                @tab-click="handleClick"
-                :stretch="true"
-                class="tabs"
-              >
-                <el-tab-pane label="找工作" name="student"></el-tab-pane>
-                <el-tab-pane label="招聘" name="enterprise"></el-tab-pane>
-              </el-tabs>
-              <el-form-item prop="phone">
-                <el-input
-                  v-model="userForm.phone"
-                  placeholder="手机号"
-                  prefix-icon="el-icon-user"
-                ></el-input>
-              </el-form-item>
-              <el-form-item prop="name">
-                <el-input
-                  v-model="userForm.name"
-                  placeholder="昵称"
-                  prefix-icon="el-icon-edit"
-                ></el-input>
-              </el-form-item>
-              <el-form-item prop="password">
-                <el-input
-                  type="password"
-                  v-model="userForm.password"
-                  placeholder="密码"
-                  prefix-icon="el-icon-lock"
-                  show-password
-                ></el-input>
-              </el-form-item>
-              <el-form-item prop="re_password">
-                <el-input
-                  type="password"
-                  round
-                  v-model="userForm.re_password"
-                  placeholder="确认密码"
-                  prefix-icon="el-icon-check"
-                  show-password
-                ></el-input>
-              </el-form-item>
-              <div class="op">
-                <el-button
-                  type="primary"
-                  style="width: 60%"
-                  round
-                  @click="submitForm('userForm')"
-                  >注册</el-button
-                >
-                <!-- <el-button @click="resetForm('userForm')">重置</el-button> -->
-              </div>
-              <div class="tips">
-                <h3>创建账号，已有账号？<a @click="goLogin">点击登录</a></h3>
-                <div class="quickRe"></div>
-                <div class="forget"></div>
-              </div>
-            </el-form>
+  <div class="register-bg">
+    <!-- <Header></Header> -->
+    <div class="register-form">
+      <div class="center middle">
+        <el-card>
+          <div class="page-head">
+            <el-page-header
+              @click.native="goHome"
+              content="首页"
+            ></el-page-header>
           </div>
+          <div class="front">
+            <div class="formtable">
+              <el-form
+                :model="userForm"
+                :rules="rules"
+                ref="userForm"
+                label-width="100px"
+                class="demo-userForm"
+              >
+                <h2>注 册</h2>
+                <el-tabs
+                  v-model="state"
+                  @tab-click="handleClick"
+                  :stretch="true"
+                  class="tabs"
+                >
+                  <el-tab-pane label="找工作" name="student"></el-tab-pane>
+                  <el-tab-pane label="招聘" name="enterprise"></el-tab-pane>
+                </el-tabs>
+                <el-form-item prop="phone">
+                  <el-input
+                    v-model="userForm.phone"
+                    placeholder="手机号"
+                    prefix-icon="el-icon-user"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item prop="name">
+                  <el-input
+                    v-model="userForm.name"
+                    placeholder="昵称"
+                    prefix-icon="el-icon-edit"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                  <el-input
+                    type="password"
+                    v-model="userForm.password"
+                    placeholder="密码"
+                    prefix-icon="el-icon-lock"
+                    show-password
+                  ></el-input>
+                </el-form-item>
+                <el-form-item prop="re_password">
+                  <el-input
+                    type="password"
+                    round
+                    v-model="userForm.re_password"
+                    placeholder="确认密码"
+                    prefix-icon="el-icon-check"
+                    show-password
+                  ></el-input>
+                </el-form-item>
+                <div class="op">
+                  <el-button
+                    type="primary"
+                    style="width: 60%"
+                    round
+                    @click="submitForm('userForm')"
+                    >注册</el-button
+                  >
+                  <!-- <el-button @click="resetForm('userForm')">重置</el-button> -->
+                </div>
+                <div class="tips">
+                  <h3>创建账号，已有账号？<a @click="goLogin">点击登录</a></h3>
+                  <div class="quickRe"></div>
+                  <div class="forget"></div>
+                </div>
+              </el-form>
+            </div>
+          </div>
+        </el-card>
+        <div class="slogan">
+          <h1>基于知识图谱的</h1>
+          <h1>大学生能力评价和职位推荐系统</h1>
+          <br />
+          <span>College students ability evaluation</span><br />
+          <span>and job recommendation system based on knowledge graph</span>
         </div>
-      </el-card>
+      </div>
     </div>
   </div>
 </template>
@@ -168,43 +182,75 @@ export default {
     handleClick() {
       console.log(this.state);
     },
+    goHome() {
+      this.$router.push("home");
+    },
   },
 };
 </script>
 
 <style lang='less' scoped>
-.login-form {
-  position: relative;
-  .home{
-    height: 50px;
-    width: 50px;
-    border: 1px silver solid;
-    position: absolute;
-    top: 4%;
-    left: 2%;
-    z-index: 1;
-  }
+.register-bg {
+  background-image: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/canva_register_back.png);
+  background-size: 100% 100%;
+  // position: relative;
+  // .home {
+  //   height: 50px;
+  //   width: 50px;
+  //   border: 1px silver solid;
+  //   position: absolute;
+  //   top: 4%;
+  //   left: 2%;
+  //   z-index: 1;
+  // }
   // height: 825px;
-  background-image: url("~@/assets/bg.png");
-  background-color: #f2f2f2;
-
+  // background-image: url("~@/assets/bg.png");
+  // background-color: #f2f2f2;
+  .register-form {
+    // height: 742px;
+    height: 100vh;
+    overflow: hidden;
+    backdrop-filter: blur(9px);
+  }
   .center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 742px;
+    position: relative;
+
+    // height: 742px;
+    height: 80%;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 5%;
+    background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/canva_register.png);
+    background-size: 100% 100%;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // height: 742px;
 
     .el-card {
-      // border: none;
+      padding: 20px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      border: none;
       // z-index: -1;
+      background: transparent;
       width: 700px;
       height: 600px;
-      // box-shadow: none;
+      box-shadow: none;
       // margin-top: 5%;
       // padding: 0 20%;
-      background-image: url("~@/assets/bg.png");
+      // background-image: url("~@/assets/bg.png");
       // background-color: #f2f2f2;
-      background: white;
+      // background: white;
+      .page-head {
+        position: relative;
+        .el-page-header {
+          position: absolute;
+          top: 10px;
+          left: 90px;
+        }
+      }
       .front {
         .formtable {
           // padding: 0 10%;
@@ -236,6 +282,11 @@ export default {
           }
         }
       }
+    }
+    .slogan {
+      position: absolute;
+      top: 80px;
+      right: 60px;
     }
   }
 }

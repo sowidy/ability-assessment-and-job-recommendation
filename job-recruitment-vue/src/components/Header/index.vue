@@ -75,8 +75,9 @@
             <div>
               <div
                 style="
-                  background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/subscribe.png)
-                    top right no-repeat;
+                  background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/subscribe.png);
+                  background-position:right;
+                  background-repeat:no-repeat;
                   background-size: 60% 100%;
                 "
               >
@@ -139,7 +140,7 @@ export default {
       navs: [
         { value: "home", name: "首页" },
 
-        { value: "evaluation-recommendations", name: "能力评估与建议" },
+        { value: "evaluation-recommendations", name: "能力评价与建议" },
         { value: "recommend", name: "推荐" },
         { value: "search", name: "搜索" },
 
@@ -383,7 +384,7 @@ export default {
       // border:solid 1px rgb(230, 49, 29);
       height: 100%;
       margin-top: 20px;
-      width: 40%;
+      width: 30%;
       text-align: right;
       // float: right;
       .el-dropdown-link {
@@ -409,7 +410,7 @@ export default {
       }
     }
     .nav {
-      width: 60%;
+      width: 70%;
       // float: left;
       margin-top: 10px;
       // border:solid 1px salmon;
@@ -424,8 +425,8 @@ export default {
         justify-content: space-around;
         li {
           list-style-type: none;
-          margin: 0 25px;
-          padding: 10px 5px;
+          margin: 0 3%;
+          padding: 1% 1%;
           position: relative;
         }
         li::before {

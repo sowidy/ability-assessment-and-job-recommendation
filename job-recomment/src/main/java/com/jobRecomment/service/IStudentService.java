@@ -58,4 +58,6 @@ public interface IStudentService extends IService<Student> {
     PageDTO<RemarkVO> QueryRemark(RemarkQuery query);
 
     void updatePhone(String phone);
+
+    void updateUserById(Student user);
 }

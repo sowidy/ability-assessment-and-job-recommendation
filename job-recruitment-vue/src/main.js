@@ -36,6 +36,9 @@ new Vue({
   render: h => h(App),
   router,
   store,
+  head: {
+    title: '基于知识图谱的大学生能力评价和职位推荐系统'
+  },
   beforeCreate() {
     Vue.prototype.$bus = this //安装全局事件总线
   },

@@ -126,7 +126,8 @@ public class EnterpriseController {
     @ApiOperation("更新企业信息")
     @PostMapping("/update")
     public Result uploadEnterpriseInfo(@RequestBody Enterprise enterprise){
-        enterpriseService.updateEnterprise(enterprise);
+        if(enterprise.getId() ==null) enterpriseService.updateEnterprise(enterprise);
+        else enterpriseService.uploadInfoById(enterprise);
         return Result.success();
     }
 
