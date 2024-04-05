@@ -23,7 +23,6 @@
                     ref="resumeUploader"
                     drag
                     name="file"
-                    accept=".pdf, .doc, .docx, .ppt, .pptx, .png, jpg, .jpeg"
                     :show-file-list="false"
                     action="http://localhost:8080/api/upload/resume"
                     :on-success="handleResumeUploadSuccess"
@@ -31,6 +30,8 @@
                     :on-progress="handleResumeUploadProgress"
                     :on-error="handleResumeUploadError"
                     :headers="{ token }"
+                    accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                    :before-upload="checkFile"
                   >
                     <div class="uploadFile__resume">
                       <div class="beforeUpload" v-if="!uploadData.id">
@@ -38,9 +39,7 @@
                         <div class="upload-button">
                           <el-button round type="primary">选择文件</el-button>
                         </div>
-                        <div>
-                          请上传 .pdf,.doc,.docx,.png,jepg,jpg 文件
-                        </div>
+                        <div>请上传 .pdf,.doc,.docx,.png,jepg,jpg 文件</div>
                       </div>
                       <div class="afterUpload" v-else>
                         <div class="fileicon">
@@ -169,7 +168,7 @@ export default {
                 type: "success",
                 message: "修改成功",
               });
-              
+
               // this.$router.push({ name: "Evaluate" });
             }
           })
@@ -185,7 +184,7 @@ export default {
     },
     handleResumeUploadError(err) {
       this.$notify({
-        message: err.message || "网络中断",
+        message: err.message || "文件太大，文件应该小于20M",
         dangerouslyUseHTMLString: true,
         type: "error",
         // duration: 0
@@ -195,13 +194,31 @@ export default {
     handleResumeUploadProgress(progressEvent) {
       this.$resumeUploadPopupProgress.value = progressEvent.percent;
     },
+    checkFile(file) {
+    const acceptedExtensions = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg"];
+    const pathArr = file.name.split(".");
+    const fileExtension = "." + pathArr[pathArr.length - 1].toLowerCase();
+
+    if (!acceptedExtensions.includes(fileExtension)) {
+      this.$notify.error('请上传以下类型的文件：.pdf, .doc, .docx, .png, .jpg, .jpeg');
+      return false; // 中断上传
+    }
+
+    return true; // 允许上传
+  },
     async handleResumeUploadChange(file) {
       if (file.status === "ready") {
         const pathArr = file.name.split(".");
 
+        const acceptedExtensions = [".pdf", ".doc", ".docx", ".ppt", ".pptx", ".png", ".jpg", ".jpeg"];
+        const fileExtension = "." + pathArr[pathArr.length - 1].toLowerCase(); // 获取文件扩展名并转换为小写
+        if (!acceptedExtensions.includes(fileExtension)) {
+            // this.$notify.error('请上传以下类型的文件：.pdf, .doc, .docx, .ppt, .pptx, .png, .jpg, .jpeg');
+            return; // 如果文件类型不符合要求，直接返回，不执行后续操作
+        }
         this.$resumeUploadPopupProgress = this.$popupProgress({
           title: "上传中...",
-          fileicon: pathArr[pathArr.length - 1],
+          fileicon:fileExtension//pathArr[pathArr.length - 1],
         }).$on("abort", () => {
           this.$refs.resumeUploader.abort();
           this.$notify.warning("已取消上传");
@@ -245,9 +262,9 @@ export default {
   padding: 21px;
   display: flex;
   justify-content: space-around;
-  span{
+  span {
     text-align: center;
-    padding-top: 1% ;
+    padding-top: 1%;
   }
   .createResume {
     // position: relative;
@@ -270,7 +287,7 @@ export default {
     position: fixed;
     bottom: 0;
     left: 0;
-  
+
     box-shadow: 0 -2px 10px #eee;
   }
 }

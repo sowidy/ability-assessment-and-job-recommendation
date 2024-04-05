@@ -384,14 +384,14 @@ export default {
     },
     beforeAvatarUpload(file) {
       // const isJPG = file.type === "image/jpeg";
-      // const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 < 2;
       // if (!isJPG) {
       //   this.$notify.error("上传头像图片只能是 JPG 格式!");
       // }
-      // if (!isLt2M) {
-      //   this.$notify.error("上传头像图片大小不能超过 2MB!");
-      // }
-      // return isJPG && isLt2M;
+      if (!isLt2M) {
+        this.$notify.error("上传头像图片大小不能超过 2MB!");
+      }
+      return  isLt2M//isJPG &&;
     },
     confirmUpdateUser() {
       this.$refs.form.validate((valid) => {

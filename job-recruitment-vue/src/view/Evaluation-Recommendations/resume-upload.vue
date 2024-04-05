@@ -31,6 +31,7 @@
                     :on-progress="handleResumeUploadProgress"
                     :on-error="handleResumeUploadError"
                     :headers="{ token }"
+                    :before-upload="checkFile"
                   >
                     <div class="uploadFile__resume">
                       <div class="beforeUpload" v-if="!uploadData.id">
@@ -180,13 +181,31 @@ export default {
     handleResumeUploadProgress(progressEvent) {
       this.$resumeUploadPopupProgress.value = progressEvent.percent;
     },
+    checkFile(file) {
+    const acceptedExtensions = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg"];
+    const pathArr = file.name.split(".");
+    const fileExtension = "." + pathArr[pathArr.length - 1].toLowerCase();
+
+    if (!acceptedExtensions.includes(fileExtension)) {
+      this.$notify.error('请上传以下类型的文件：.pdf, .doc, .docx, .png, .jpg, .jpeg');
+      return false; // 中断上传
+    }
+
+    return true; // 允许上传
+  },
     async handleResumeUploadChange(file) {
       if (file.status === "ready") {
         const pathArr = file.name.split(".");
 
+        const acceptedExtensions = [".pdf", ".doc", ".docx", ".ppt", ".pptx", ".png", ".jpg", ".jpeg"];
+        const fileExtension = "." + pathArr[pathArr.length - 1].toLowerCase(); // 获取文件扩展名并转换为小写
+        if (!acceptedExtensions.includes(fileExtension)) {
+            // this.$notify.error('请上传以下类型的文件：.pdf, .doc, .docx, .ppt, .pptx, .png, .jpg, .jpeg');
+            return; // 如果文件类型不符合要求，直接返回，不执行后续操作
+        }
         this.$resumeUploadPopupProgress = this.$popupProgress({
           title: "上传中...",
-          fileicon: pathArr[pathArr.length - 1],
+          fileicon:fileExtension//pathArr[pathArr.length - 1],
         }).$on("abort", () => {
           this.$refs.resumeUploader.abort();
           this.$notify.warning("已取消上传");
