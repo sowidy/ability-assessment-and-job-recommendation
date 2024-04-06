@@ -37,4 +37,7 @@ public class StudentQuery extends PageQuery  {
 
     @ApiModelProperty("专业")
     private String major;
+
+    @ApiModelProperty("专业")
+    private String resumeId;
 }

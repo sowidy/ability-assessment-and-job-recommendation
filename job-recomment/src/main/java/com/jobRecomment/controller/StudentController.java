@@ -92,7 +92,7 @@ public class StudentController {
     }
 
     @GetMapping("/list")
-    @ApiOperation("获取用户列表接口")
+    @ApiOperation("获取上传简历用户列表接口")
     public Result<List<Student>> getUserList(){
         List<Student> list = studentService.getUserList();
         return  Result.success(list);

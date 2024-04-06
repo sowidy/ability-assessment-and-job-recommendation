@@ -1,6 +1,7 @@
 package com.jobRecomment.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -61,7 +62,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
     @Override
     public List<Student> getUserList() {
-        return list();
+        LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
+        wrapper.isNotNull(Student::getResumeId);
+        return list(wrapper);
     }
 
     @Override
@@ -77,7 +80,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Override
     public List<Student> getAllStudent() {
-        return lambdaQuery().list();
+        LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
+        wrapper.isNotNull(Student::getResumeId);
+        return list(wrapper);
     }
 
     @Override
@@ -137,6 +142,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public PageDTO<Student> queryStudent(StudentQuery query) {
         Page<Student> page =query.toMpPage();
         QueryWrapper<Student> wrapper = new QueryWrapper<>();
+//        wrapper.isNotNull("resume_id");
         if (StringUtils.isNotBlank(query.getName())) {
             wrapper.like("name", query.getName());
         }
@@ -155,7 +161,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         if (StringUtils.isNotBlank(query.getMajor())) {
             wrapper.like("major", query.getMajor());
         }
-
+        if (query.getResumeId().equals("1")) wrapper.isNotNull("resume_id");
         Page<Student> p = baseMapper.selectPage(page, wrapper);
         return PageDTO.of(p, Student.class);
     }

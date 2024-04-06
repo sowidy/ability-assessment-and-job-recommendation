@@ -144,7 +144,7 @@ export function getAllStudent() {
   * @returns
  */
 export function queryStudent(query) {
-  return request.get(`/public/query/student?education=${query.education}&gender=${query.gender}&isAsc=${query.isAsc}&major=${query.major}&name=${query.name}&pageNo=${query.pageNo}&pageSize=${query.pageSize}&school=${query.school}&sortBy=${query.sortBy}`);
+  return request.get(`/public/query/student?education=${query.education}&gender=${query.gender}&isAsc=${query.isAsc}&major=${query.major}&name=${query.name}&pageNo=${query.pageNo}&pageSize=${query.pageSize}&school=${query.school}&sortBy=${query.sortBy}&resumeId=${query.resumeId}`);
 }
 
 /** 

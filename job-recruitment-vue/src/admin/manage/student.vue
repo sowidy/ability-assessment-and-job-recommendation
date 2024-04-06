@@ -147,6 +147,7 @@
                 placeholder="选择日期"
                 v-model="form.bornYear"
                 style="width: 100%"
+                :picker-options="pickerOptions"
               ></el-date-picker>
             </el-form-item>
             <el-form-item label="电话号码" prop="phone">
@@ -232,6 +233,7 @@ export default {
         gender: "",
         major: "",
         school: "",
+        resumeId: "0",
       },
       form: {
         avatar: "",
@@ -272,6 +274,22 @@ export default {
           { min: 11, max: 11, message: "电话号码不正确", trigger: "blur" },
           { validator: validatePhone, trigger: "blur" },
         ],
+      },
+      pickerOptions: {
+        disabledDate(time) {
+          // 计算25年前的日期
+          const twentyFiveYearsAgo = new Date();
+          twentyFiveYearsAgo.setFullYear(twentyFiveYearsAgo.getFullYear() - 30);
+
+          // 计算当前日期
+          const now = new Date();
+
+          // 限制开始日期不能晚于25年前，结束日期不能晚于当前日期
+          return (
+            time.getTime() > now.getTime() ||
+            time.getTime() < twentyFiveYearsAgo.getTime()
+          );
+        },
       },
     };
   },
@@ -452,7 +470,7 @@ export default {
       if (!isLt2M) {
         this.$notify.error("上传头像图片大小不能超过 2MB!");
       }
-      return  isLt2M//isJPG &&;
+      return isLt2M; //isJPG &&;
     },
     confirmUpdateUser() {
       this.$refs.form.validate((valid) => {
@@ -467,7 +485,7 @@ export default {
                   message: "修改成功",
                 });
                 this.dialogVisible = false;
-                this.getStudentList()
+                this.getStudentList();
               }
             })
             .catch((err) => {

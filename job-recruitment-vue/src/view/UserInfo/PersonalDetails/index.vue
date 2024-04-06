@@ -9,7 +9,12 @@
             @click="centerDialogVisible = true"
             >编辑</el-button
           >
-          <el-button type="primary" size="small" @click="centerDialogVisible2 = true">添加经历/技能</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="centerDialogVisible2 = true"
+            >添加经历/技能</el-button
+          >
         </template>
         <el-descriptions-item>
           <template slot="label"
@@ -19,7 +24,7 @@
             class="img"
             v-if="userInfo.avatar"
             :src="userInfo.avatar"
-            style="width:70px;hight:70px"
+            style="width: 70px; hight: 70px"
             alt=""
           />
           <span v-else>暂无</span>
@@ -267,6 +272,7 @@
                     v-model="userForm.bornYear"
                     type="date"
                     placeholder="选择日期"
+                    :picker-options="pickerOptions"
                   ></el-date-picker>
                 </el-form-item>
               </el-col>
@@ -309,41 +315,49 @@
         <el-button type="primary" @click="submit">确 定</el-button>
       </span>
     </el-dialog>
-      
-    <el-dialog :modal-append-to-body="false" title="" :visible.sync="centerDialogVisible2" width="40%" >
+
+    <el-dialog
+      :modal-append-to-body="false"
+      title=""
+      :visible.sync="centerDialogVisible2"
+      width="40%"
+    >
       <div>
         <el-form ref="basicForm" :rules="rules" :model="userForm">
-        <el-row>
-          <el-col :span="20">
-            <el-row>
-              <el-col :span="24">
-                <el-form-item label="经历" prop="experience">
-                  <el-input
-                    v-model="userForm.experience"
-                    type="textarea"
-                    :rows="10"
-                  ></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="24">
-                <el-form-item label="技能" prop="skills">
-                  <el-input
-                    v-model="userForm.skills"
-                    type="textarea"
-                    :rows="4"
-                  ></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-col>
-        </el-row>
+          <el-row>
+            <el-col :span="20">
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="经历" prop="experience">
+                    <el-input
+                      v-model="userForm.experience"
+                      type="textarea"
+                      :rows="10"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="技能" prop="skills">
+                    <el-input
+                      v-model="userForm.skills"
+                      type="textarea"
+                      :rows="4"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-col>
+          </el-row>
         </el-form>
       </div>
       <div slot="footer">
         <el-button @click="centerDialogVisible2 = false">取 消</el-button>
-        <el-button type="primary" @click="submit" :disabled="userForm.experience =='' ||userForm.skills == ''"
+        <el-button
+          type="primary"
+          @click="submit"
+          :disabled="userForm.experience == '' || userForm.skills == ''"
           >确 定</el-button
         >
       </div>
@@ -358,7 +372,7 @@ export default {
     return {
       footerActionFixed: false,
       centerDialogVisible: false,
-      centerDialogVisible2:false,
+      centerDialogVisible2: false,
       options: [
         {
           value: "专科",
@@ -391,13 +405,31 @@ export default {
         school: [{ required: true, message: "请选择学历", trigger: "blur" }],
         major: [{ required: true, message: "请选择学历", trigger: "blur" }],
       },
+      pickerOptions: {
+        disabledDate(time) {
+          // 计算25年前的日期
+          const twentyFiveYearsAgo = new Date();
+          twentyFiveYearsAgo.setFullYear(twentyFiveYearsAgo.getFullYear() - 30);
+
+          // 计算当前日期
+          const now = new Date();
+
+          // 限制开始日期不能晚于25年前，结束日期不能晚于当前日期
+          return (
+            time.getTime() > now.getTime() ||
+            time.getTime() < twentyFiveYearsAgo.getTime()
+          );
+        },
+      },
     };
   },
   computed: {
     ...mapState("user", ["userInfo", "identity"]),
     age() {
       const currentYear = new Date().getFullYear();
-      return this.userInfo.bornYear ?currentYear - this.userInfo.bornYear.slice(0, 4):'';
+      return this.userInfo.bornYear
+        ? currentYear - this.userInfo.bornYear.slice(0, 4)
+        : "";
     },
   },
   mounted() {
@@ -408,7 +440,7 @@ export default {
       this.modify = true;
     },
     submitLoading() {},
-    handleCancel(){
+    handleCancel() {
       this.$refs.basicForm.resetFields();
       this.centerDialogVisible = false;
     },
@@ -448,8 +480,8 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.el-descriptions-item{
-  .img{
+.el-descriptions-item {
+  .img {
     width: 100px;
     height: 100px;
   }
