@@ -4,21 +4,6 @@
     <div class="container">
       <div class="headbar">
         <div>
-          <!-- <videostyle="height: 100%; width: 100%; position: relative"
-            src="https://job-test.oss-cn-hangzhou.aliyuncs.com/%E7%99%BE%E5%BA%A6%E6%99%BA%E8%83%BD%E4%BA%91%E5%8D%83%E5%B8%86%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B3%E5%8F%B0ModelBuilder2.mp4"
-            autoplay
-            loop
-            muted
-            style="
-              width: 100%;
-              height: 101%;
-              object-fit: cover;
-              position: absolute;
-              top: 0;
-              left: 0;
-              z-index: 0;
-            "
-          ></video> -->
           <el-card>
             <div>
               <div class="expectation">
@@ -74,11 +59,28 @@
                   >
                 </div>
               </div>
-              <!-- <div class="tags-list">
+              <div class="tags-list">
                 <span>筛选</span>
-                <el-select v-model="value" placeholder="企业类型">
+                <el-input
+                  v-model="condition.title"
+                  v-if="_identity == 'student'"
+                  placeholder="职位名称"
+                  @change="input_1_change"
+                />
+                <el-input
+                  v-model="studentCondition.name"
+                  v-else
+                  @change="input_1_else_change"
+                  placeholder="学生姓名"
+                />
+                <el-select
+                  v-model="salaryValue"
+                  v-if="_identity == 'student'"
+                  @change="input_2_change"
+                  placeholder="薪资待遇"
+                >
                   <el-option
-                    v-for="item in options"
+                    v-for="item in salaryOptions"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -86,9 +88,14 @@
                   </el-option>
                 </el-select>
 
-                <el-select v-model="value" placeholder="学历要求">
+                <el-select
+                  v-model="studentCondition.education"
+                  @change="input_2_else_change"
+                  v-else
+                  placeholder="学历要求"
+                >
                   <el-option
-                    v-for="item in options"
+                    v-for="item in eduOptions"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -96,28 +103,42 @@
                   </el-option>
                 </el-select>
 
-                <el-select v-model="value" placeholder="薪资待遇">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
+                <el-input
+                  v-model="condition.name"
+                  v-if="_identity == 'student'"
+                  @change="input_3_change"
+                  placeholder="企业名称"
+                />
 
-                <el-select v-model="value" placeholder="地点">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
+                <el-input
+                  v-model="studentCondition.school"
+                  @change="input_3_else_change"
+                  v-else
+                  placeholder="学校"
+                />
 
-                <el-button type="info" plain icon="el-icon-delete">清空筛选条件</el-button>
-              </div> -->
+                <el-input
+                  v-model="condition.address"
+                  v-if="_identity == 'student'"
+                  @change="input_4_change"
+                  placeholder="工作地点"
+                />
+
+                <el-input
+                  v-model="studentCondition.major"
+                  @change="input_4_else_change"
+                  v-else
+                  placeholder="专业"
+                />
+
+                <el-button
+                  type="info"
+                  plain
+                  icon="el-icon-delete"
+                  @click="removeCondition"
+                  >清空筛选条件</el-button
+                >
+              </div>
             </div>
           </el-card>
         </div>
@@ -259,11 +280,6 @@ export default {
       dynamicTags: [],
       inputVisible: false,
       inputValue: "",
-      // dialogVisible: false,
-      // rate: null,
-      // userForm: {
-      //   remark: "",
-      // },
       condition: {
         address: "",
         isAsc: "true",
@@ -271,12 +287,40 @@ export default {
         name: "",
         title: "",
         pageNo: 1,
-        pageSize: 10,
-        salaryMax: "",
-        salaryMin: "",
+        pageSize: 100,
+        salaryMax: 5000000,
+        salaryMin: 0,
         sortBy: "",
         type: "",
       },
+      studentCondition: {
+        isAsc: "true",
+        name: "",
+        pageNo: 1,
+        pageSize: 100,
+        sortBy: "",
+        education: "",
+        gender: "",
+        major: "",
+        school: "",
+        resumeId: "1",
+      },
+      eduOptions: [
+        { value: "专科", label: "专科" },
+        { value: "本科", label: "本科" },
+        { value: "硕士", label: "硕士" },
+        { value: "博士", label: "博士" },
+      ],
+      salaryValue: "",
+      salaryOptions: [
+        { value: "不限", label: "不限" },
+        { value: "3k以下", label: "3k以下" },
+        { value: "3-5k", label: "3-5k" },
+        { value: "5-10k", label: "5-10k" },
+        { value: "10-20k", label: "10-20k" },
+        { value: "20-50k", label: "20-50k" },
+        { value: "50k以上", label: "50k以上" },
+      ],
     };
   },
   computed: {
@@ -286,22 +330,12 @@ export default {
     },
   },
   watch: {
-    // Watch for changes in dynamicTags array
     dynamicTags: {
-      handler: "handleDynamicTagsChange", // Call the method when dynamicTags change
-      deep: true, // Deep watch for changes inside the array
+      handler: "handleDynamicTagsChange",
+      deep: true,
     },
   },
   methods: {
-    // hoverCard(isHover, id) {
-    //   if (isHover) {
-    //     // Add hover class when mouse enters
-    //     document.querySelector(`.recommendCard .el-card[data-id="${id}"]`).classList.add('hover');
-    //   } else {
-    //     // Remove hover class when mouse leaves
-    //     document.querySelector(`.recommendCard .el-card[data-id="${id}"]`).classList.remove('hover');
-    //   }
-    // },
     getList() {
       // console.log(this.identity);
       this.$API.enterprise
@@ -339,79 +373,29 @@ export default {
       this.$nextTick(() => {
         this.$refs.saveTagInput.$refs.input.focus();
       });
-      // console.log(this.dynamicTags);
     },
     handleDynamicTagsChange() {
       if (this.dynamicTags.length === 0) {
         this.getList();
         return;
       }
-
-      // Create an array to store all promises
       const promises = [];
-
-      // Create a temporary array to store recommendations
       const tempRecommendations = [];
-
-      // Iterate over dynamicTags
       this.dynamicTags.forEach((tag) => {
-        // Push each API call promise to promises array
         promises.push(this.$API.enterprise.queryByName(tag));
       });
-
-      // Wait for all promises to resolve
       Promise.all(promises)
         .then((responses) => {
-          // Flatten the array of responses
           const recommendationLists = responses.map(
             (response) => response.data.data
           );
-          // Concatenate all recommendation lists into a single array
           tempRecommendations.push(...[].concat(...recommendationLists));
-
-          // Update recommentList with the new recommendations
           this.recommentList = tempRecommendations;
         })
         .catch((error) => {
           console.error("Error fetching recommendations:", error);
         });
     },
-    // handleDynamicTagsChange() {
-    //   if (this.dynamicTags.length === 0) {
-    //     this.getList();
-    //     return;
-    //   }
-
-    //   // Create an array to store all promises
-    //   const promises = [];
-
-    //   // Create a temporary array to store recommendations
-    //   const tempRecommendations = [];
-
-    //   // Iterate over dynamicTags
-    //   this.dynamicTags.forEach((tag) => {
-    //     // Push each API call promise to promises array
-    //     promises.push(this.$API.enterprise.queryByName(tag));
-    //   });
-
-    //   // Wait for all promises to resolve
-    //   Promise.all(promises)
-    //     .then((responses) => {
-    //       // Flatten the array of responses
-    //       const recommendationLists = responses.map(
-    //         (response) => response.data.data
-    //       );
-    //       // Concatenate all recommendation lists into a single array
-    //       const flattenedRecommendations = [].concat(...recommendationLists);
-    //       // Push the results to the temporary array
-    //       tempRecommendations.push(...flattenedRecommendations);
-    //       // Update recommentList with the new recommendations
-    //       this.recommentList = [...this.recommentList, ...tempRecommendations];
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching recommendations:", error);
-    //     });
-    // },
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
@@ -427,45 +411,130 @@ export default {
         query: { id },
       });
     },
-    // dialogBeforeClose() {
-    //   this.dialogVisible = false;
-    // },
     freshList() {
       this.getList();
-    },
-    cancelRemark() {
-      this.rate = null;
-      this.userForm.remark = "";
-      this.dialogVisible = false;
     },
     feedback() {
       this.$bus.$emit("showDialog");
     },
-    // upRemark() {
-    //   let identity = getIdentity();
-    //   // console.log(this.rate);
-    //   // console.log(this.userForm.remark);
-    //   this.userForm.remark = this.rate + this.userForm.remark;
-    //   // console.log(this.userForm.remark);
-    //   this.dialogVisible = false;
-    //   this.$API.user
-    //     .updateUser(this.userForm, identity)
-    //     .then((resp) => {
-    //       console.log(resp.data);
-    //       if (resp.data.code === 0) {
-    //         this.$store.dispatch("user/getUserInfo", { identity });
-    //         this.$message({
-    //           type: "success",
-    //           message: "感谢您的支持",
-    //         });
-    //         this.rate = null;
-    //         this.userForm.remark = "";
-    //       } else console.log(resp.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
+    conditionQueryEnterprise() {
+      this.$API.enterprise
+        .conditionQuery(this.condition)
+        .then((resp) => {
+          if (resp.data.code == 0) {
+            this.recommentList = resp.data.data.list;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    conditionQueryStuudent() {
+      this.$API.user
+        .queryStudent(this.studentCondition)
+        .then((resp) => {
+          if (resp.data.code == 0) {
+            this.recommentList = resp.data.data.list;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    input_1_change() {
+      this.conditionQueryEnterprise();
+    },
+    input_1_else_change() {
+      this.conditionQueryStuudent();
+    },
+    input_2_change() {
+      // console.log(this.salaryValue);
+      switch (this.salaryValue) {
+        case "3k以下":
+          this.condition.salaryMin = 0;
+          this.condition.salaryMax = 3000;
+          break;
+        case "3-5k":
+          this.condition.salaryMin = 3000;
+          this.condition.salaryMax = 5000;
+          break;
+        case "5-10k":
+          this.condition.salaryMin = 5000;
+          this.condition.salaryMax = 10000;
+          break;
+        case "10-20k":
+          this.condition.salaryMin = 100000;
+          this.condition.salaryMax = 200000;
+          break;
+        case "20-50k":
+          this.condition.salaryMin = 200000;
+          this.condition.salaryMax = 500000;
+          break;
+        case "50k以上":
+          this.condition.salaryMin = 500000;
+          this.condition.salaryMax = 1000000;
+          break;
+        default:
+          this.condition.salaryMin = 0;
+          this.condition.salaryMax = 1000000;
+          break;
+      }
+      console.log(this.condition);
+      this.conditionQueryEnterprise();
+    },
+    input_2_else_change() {
+      this.conditionQueryStuudent();
+    },
+    input_3_change() {
+      this.conditionQueryEnterprise();
+    },
+    input_3_else_change() {
+      this.conditionQueryStuudent();
+    },
+    input_4_change() {
+      this.conditionQueryEnterprise();
+    },
+    input_4_else_change() {
+      this.conditionQueryStuudent();
+    },
+    removeCondition() {
+      this.condition = {
+        address: "",
+        isAsc: "true",
+        enterpriseAuth: "0",
+        name: "",
+        title: "",
+        pageNo: 1,
+        pageSize: 100,
+        salaryMax: 5000000,
+        salaryMin: 0,
+        sortBy: "",
+        type: "",
+      };
+
+      this.studentCondition = {
+        isAsc: "true",
+        name: "",
+        pageNo: 1,
+        pageSize: 100,
+        sortBy: "",
+        education: "",
+        gender: "",
+        major: "",
+        school: "",
+        resumeId: "1",
+      };
+
+      // Clear any selected salaryValue
+      this.salaryValue = "";
+      this.getList()
+      // Call the appropriate query method based on the user's identity
+      // if (this._identity === "student") {
+      //   this.conditionQueryStuudent();
+      // } else {
+      //   this.conditionQueryEnterprise();
+      // }
+    },
   },
   mounted() {
     this.getList();
@@ -527,6 +596,10 @@ export default {
         position: relative;
         .el-select {
           margin: 0 5px;
+        }
+        .el-input {
+          .el-select();
+          width: 200px;
         }
       }
     }
