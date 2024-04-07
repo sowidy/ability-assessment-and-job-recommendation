@@ -1,4 +1,5 @@
 package com.jobRecomment.controller;
+import com.jobRecomment.domain.bean.Enterprise;
 import com.jobRecomment.domain.bean.Result;
 import com.jobRecomment.domain.bean.Student;
 import com.jobRecomment.domain.dto.PageDTO;
@@ -177,5 +178,20 @@ public class StudentController {
     public Result<PageDTO<RemarkVO>> getRemarkVoByPage(RemarkQuery query){
         PageDTO<RemarkVO> list = studentService.QueryRemark(query);
         return Result.success(list);
+    }
+
+    @ApiOperation("后台-只删除学生反馈，不删除学生信息")
+    @DeleteMapping("/delete/remark")
+    public Result deleteRemark(String ids){
+//        System.out.println(ids);
+        studentService.deleteRemarkByIds(ids);
+        return Result.success();
+    }
+
+    @ApiOperation("按技能查找")
+    @GetMapping("/getListBySkills")
+    public Result<List<Student>> queryBySkills(@RequestParam String skill){
+        List<Student> students = studentService.queryBySkills(skill);
+        return Result.success(students);
     }
 }

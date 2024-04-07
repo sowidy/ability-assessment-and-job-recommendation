@@ -110,7 +110,7 @@
                   label-width="100px"
                   class="demo-ruleForm"
                 >
-                  <el-form-item label="反馈信息" prop="text">
+                  <el-form-item label="反馈信息" prop="remarkText">
                     <el-input
                       v-model="userForm.remarkText"
                       type="textarea"
@@ -168,7 +168,7 @@ export default {
         remarkText: "",
       },
       rules: {
-        text: [{ required: true, message: "请输入反馈信息", trigger: "blur" }],
+        remarkText: [{ required: true, message: "请输入反馈信息", trigger: "blur" }],
       },
     };
   },

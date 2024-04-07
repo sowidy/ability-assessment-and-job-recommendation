@@ -144,7 +144,16 @@ export function getAllStudent() {
   * @returns
  */
 export function queryStudent(query) {
-  return request.get(`/public/query/student?education=${query.education}&gender=${query.gender}&isAsc=${query.isAsc}&major=${query.major}&name=${query.name}&pageNo=${query.pageNo}&pageSize=${query.pageSize}&school=${query.school}&sortBy=${query.sortBy}&resumeId=${query.resumeId}`);
+  return request.get(`/public/query/student?education=${query.education}&gender=${query.gender}&isAsc=${query.isAsc}&major=${query.major}&name=${query.name}&pageNo=${query.pageNo}&pageSize=${query.pageSize}&school=${query.school}&sortBy=${query.sortBy}&resumeId=${query.resumeId}&skills=${query.skills}`);
+}
+
+/** 
+ * 按技能查找
+ * @param {string} skill skill
+  * @returns
+ */
+export function queryBySkills(skill) {
+  return request.get(`/student/getListBySkills?skill=${skill}`);
 }
 
 /** 
@@ -164,7 +173,14 @@ export function findStudentById(id) {
 export function deleteByIds(ids) {
   return request.delete(`/student/deleteByIds?ids=${ids}`);
 }
-
+/** 
+ * 后台-只删除学生反馈，不删除学生信息
+ * @param {string} ids ids
+  * @returns
+ */
+export function deleteRemark(ids) {
+  return request.delete(`/student/delete/remark?ids=${ids}`);
+}
 /** 
  * 后台-获取学生/企业总人数接口
  * @returns
@@ -208,7 +224,7 @@ export function getRemarkVoByPage(query) {
  * 更新用户密码接口
  * @returns
  */
-export function updateUserPassword(state,params) {
+export function updateUserPassword(state, params) {
   return request.patch(`/${state}/updatepwd`, params);
 }
 
@@ -217,6 +233,6 @@ export function updateUserPassword(state,params) {
  * @param {string} phone phone
   * @returns
  */
-export function updatePhone(state,phoneForm) {
+export function updatePhone(state, phoneForm) {
   return request.patch(`/${state}/update/phone?phone=${phoneForm.phone}`);
 }

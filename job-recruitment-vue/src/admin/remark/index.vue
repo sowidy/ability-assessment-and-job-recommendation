@@ -75,7 +75,6 @@
 </template>
 
 <script>
-// import { queryStudent, deleteByIds } from '@/api/student'
 export default {
   name: "Remark",
   data() {
@@ -153,22 +152,20 @@ export default {
       })
         .then(() => {
           const selectedIds = this.multipleSelection.map((row) => row.id);
+          console.log(selectedIds);
           this.$API.user
-            .deleteByIds(selectedIds)
+            .deleteRemark(selectedIds)
             .then((resp) => {
-              // console.log(resp.data);
               if (resp.data.code === 0) {
-                this.getStudentList();
+                this.getRemarkListList();
                 this.$notify({
                   type: "success",
                   message: "操作成功",
                 });
-              } else this.$notify.error(resp.data.message);
-              // 在这里处理删除成功后的逻辑，例如刷新数据列表等
+              } else this.$notify.error("删除失败");
             })
             .catch((err) => {
               console.error(err);
-              // 在这里处理删除失败后的逻辑
             });
         })
         .catch(() => {
@@ -178,26 +175,22 @@ export default {
           });
         });
     },
-    handleDeleteById(row) {
-      // console.log(row)
-      this.$API.user
-        .deleteByIds(row.id)
-        .then((resp) => {
-          // console.log(resp.data);
-          if (resp.data.code === 0) {
-            this.getRemarkListList();
-            this.$notify({
-              type: "success",
-              message: "操作成功",
-            });
-          } else this.$notify.error(resp.data.message);
-          // 在这里处理删除成功后的逻辑，例如刷新数据列表等
-        })
-        .catch((err) => {
-          console.error(err);
-          // 在这里处理删除失败后的逻辑
-        });
-    },
+    // handleDeleteById(row) {
+    //   this.$API.user
+    //     .deleteByIds(row.id)
+    //     .then((resp) => {
+    //       if (resp.data.code === 0) {
+    //         this.getRemarkListList();
+    //         this.$notify({
+    //           type: "success",
+    //           message: "操作成功",
+    //         });
+    //       } else this.$notify.error(resp.data.message);
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // },
     search() {
       this.condition.name = this.input;
       this.getRemarkListList();

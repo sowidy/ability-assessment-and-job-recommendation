@@ -234,6 +234,7 @@ export default {
         major: "",
         school: "",
         resumeId: "0",
+        skills:''
       },
       form: {
         avatar: "",

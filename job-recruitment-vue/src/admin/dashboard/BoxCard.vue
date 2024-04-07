@@ -238,6 +238,8 @@ export default {
         } else this.$notify.error("请输入完整信息");
       });
     },
+    handleAvatarSuccess() {},
+    handleError() {this.$notify.error("头像上传失败")},
   },
 };
 </script>

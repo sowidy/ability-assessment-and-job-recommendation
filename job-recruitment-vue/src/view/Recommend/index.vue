@@ -59,7 +59,7 @@
                   >
                 </div>
               </div>
-              <div class="tags-list">
+              <!-- <div class="tags-list">
                 <span>筛选</span>
                 <el-input
                   v-model="condition.title"
@@ -138,7 +138,7 @@
                   @click="removeCondition"
                   >清空筛选条件</el-button
                 >
-              </div>
+              </div> -->
             </div>
           </el-card>
         </div>
@@ -280,51 +280,51 @@ export default {
       dynamicTags: [],
       inputVisible: false,
       inputValue: "",
-      condition: {
-        address: "",
-        isAsc: "true",
-        enterpriseAuth: "0",
-        name: "",
-        title: "",
-        pageNo: 1,
-        pageSize: 100,
-        salaryMax: 5000000,
-        salaryMin: 0,
-        sortBy: "",
-        type: "",
-      },
-      studentCondition: {
-        isAsc: "true",
-        name: "",
-        pageNo: 1,
-        pageSize: 100,
-        sortBy: "",
-        education: "",
-        gender: "",
-        major: "",
-        school: "",
-        resumeId: "1",
-      },
-      eduOptions: [
-        { value: "专科", label: "专科" },
-        { value: "本科", label: "本科" },
-        { value: "硕士", label: "硕士" },
-        { value: "博士", label: "博士" },
-      ],
-      salaryValue: "",
-      salaryOptions: [
-        { value: "不限", label: "不限" },
-        { value: "3k以下", label: "3k以下" },
-        { value: "3-5k", label: "3-5k" },
-        { value: "5-10k", label: "5-10k" },
-        { value: "10-20k", label: "10-20k" },
-        { value: "20-50k", label: "20-50k" },
-        { value: "50k以上", label: "50k以上" },
-      ],
+      // condition: {
+      //   address: "",
+      //   isAsc: "true",
+      //   enterpriseAuth: "0",
+      //   name: "",
+      //   title: "",
+      //   pageNo: 1,
+      //   pageSize: 100,
+      //   salaryMax: 5000000,
+      //   salaryMin: 0,
+      //   sortBy: "",
+      //   type: "",
+      // },
+      // studentCondition: {
+      //   isAsc: "true",
+      //   name: "",
+      //   pageNo: 1,
+      //   pageSize: 100,
+      //   sortBy: "",
+      //   education: "",
+      //   gender: "",
+      //   major: "",
+      //   school: "",
+      //   resumeId: "1",
+      //   skills: "",
+      // },
+      // eduOptions: [
+      //   { value: "专科", label: "专科" },
+      //   { value: "本科", label: "本科" },
+      //   { value: "硕士", label: "硕士" },
+      //   { value: "博士", label: "博士" },
+      // ],
+      // salaryValue: "",
+      // salaryOptions: [
+      //   { value: "不限", label: "不限" },
+      //   { value: "3k以下", label: "3k以下" },
+      //   { value: "3-5k", label: "3-5k" },
+      //   { value: "5-10k", label: "5-10k" },
+      //   { value: "10-20k", label: "10-20k" },
+      //   { value: "20-50k", label: "20-50k" },
+      //   { value: "50k以上", label: "50k以上" },
+      // ],
     };
   },
   computed: {
-    // ...mapState('user',['identity'])
     _identity() {
       return getIdentity() || "student";
     },
@@ -337,15 +337,12 @@ export default {
   },
   methods: {
     getList() {
-      // console.log(this.identity);
       this.$API.enterprise
         .reGetHotRecomment(
           this._identity == "student" ? "enterprise" : "student"
         )
         .then((resp) => {
-          // console.log(resp);
           this.recommentList = resp.data.data;
-          // console.log(this.recommentList);
         });
     },
     changeSelectID(id, identity) {
@@ -356,14 +353,11 @@ export default {
       id = 1,
       identity = this._identity == "student" ? "Enterprise" : "Student"
     ) {
-      // console.log(identity);
       this.aDatailTitle = [];
       this.$API.enterprise.findHotById(id, identity).then((resp) => {
         this.aDatailTitle = resp.data.data;
-        // console.log(this.aDatailTitle, "$$$$$");
       });
     },
-
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
@@ -382,7 +376,13 @@ export default {
       const promises = [];
       const tempRecommendations = [];
       this.dynamicTags.forEach((tag) => {
-        promises.push(this.$API.enterprise.queryByName(tag));
+        if (this._identity === "student") {
+          // 如果用户身份是学生，则查询企业信息
+          promises.push(this.$API.enterprise.queryByName(tag));
+        } else {
+          // 如果用户身份不是学生，则作为技能条件查询学生信息
+          promises.push(this.$API.user.queryBySkills(tag));
+        }
       });
       Promise.all(promises)
         .then((responses) => {
@@ -417,124 +417,116 @@ export default {
     feedback() {
       this.$bus.$emit("showDialog");
     },
-    conditionQueryEnterprise() {
-      this.$API.enterprise
-        .conditionQuery(this.condition)
-        .then((resp) => {
-          if (resp.data.code == 0) {
-            this.recommentList = resp.data.data.list;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    conditionQueryStuudent() {
-      this.$API.user
-        .queryStudent(this.studentCondition)
-        .then((resp) => {
-          if (resp.data.code == 0) {
-            this.recommentList = resp.data.data.list;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    input_1_change() {
-      this.conditionQueryEnterprise();
-    },
-    input_1_else_change() {
-      this.conditionQueryStuudent();
-    },
-    input_2_change() {
-      // console.log(this.salaryValue);
-      switch (this.salaryValue) {
-        case "3k以下":
-          this.condition.salaryMin = 0;
-          this.condition.salaryMax = 3000;
-          break;
-        case "3-5k":
-          this.condition.salaryMin = 3000;
-          this.condition.salaryMax = 5000;
-          break;
-        case "5-10k":
-          this.condition.salaryMin = 5000;
-          this.condition.salaryMax = 10000;
-          break;
-        case "10-20k":
-          this.condition.salaryMin = 100000;
-          this.condition.salaryMax = 200000;
-          break;
-        case "20-50k":
-          this.condition.salaryMin = 200000;
-          this.condition.salaryMax = 500000;
-          break;
-        case "50k以上":
-          this.condition.salaryMin = 500000;
-          this.condition.salaryMax = 1000000;
-          break;
-        default:
-          this.condition.salaryMin = 0;
-          this.condition.salaryMax = 1000000;
-          break;
-      }
-      console.log(this.condition);
-      this.conditionQueryEnterprise();
-    },
-    input_2_else_change() {
-      this.conditionQueryStuudent();
-    },
-    input_3_change() {
-      this.conditionQueryEnterprise();
-    },
-    input_3_else_change() {
-      this.conditionQueryStuudent();
-    },
-    input_4_change() {
-      this.conditionQueryEnterprise();
-    },
-    input_4_else_change() {
-      this.conditionQueryStuudent();
-    },
-    removeCondition() {
-      this.condition = {
-        address: "",
-        isAsc: "true",
-        enterpriseAuth: "0",
-        name: "",
-        title: "",
-        pageNo: 1,
-        pageSize: 100,
-        salaryMax: 5000000,
-        salaryMin: 0,
-        sortBy: "",
-        type: "",
-      };
+    // conditionQueryEnterprise() {
+    //   this.$API.enterprise
+    //     .conditionQuery(this.condition)
+    //     .then((resp) => {
+    //       if (resp.data.code == 0) {
+    //         this.recommentList = resp.data.data.list;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
+    // conditionQueryStudent() {
+    //   this.$API.user
+    //     .queryStudent(this.studentCondition)
+    //     .then((resp) => {
+    //       if (resp.data.code == 0) {
+    //         this.recommentList = resp.data.data.list;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
+    // input_1_change() {
+    //   this.conditionQueryEnterprise();
+    // },
+    // input_1_else_change() {
+    //   this.conditionQueryStudent();
+    // },
+    // input_2_change() {
+    //   // console.log(this.salaryValue);
+    //   switch (this.salaryValue) {
+    //     case "3k以下":
+    //       this.condition.salaryMin = 0;
+    //       this.condition.salaryMax = 3000;
+    //       break;
+    //     case "3-5k":
+    //       this.condition.salaryMin = 3000;
+    //       this.condition.salaryMax = 5000;
+    //       break;
+    //     case "5-10k":
+    //       this.condition.salaryMin = 5000;
+    //       this.condition.salaryMax = 10000;
+    //       break;
+    //     case "10-20k":
+    //       this.condition.salaryMin = 100000;
+    //       this.condition.salaryMax = 200000;
+    //       break;
+    //     case "20-50k":
+    //       this.condition.salaryMin = 200000;
+    //       this.condition.salaryMax = 500000;
+    //       break;
+    //     case "50k以上":
+    //       this.condition.salaryMin = 500000;
+    //       this.condition.salaryMax = 1000000;
+    //       break;
+    //     default:
+    //       this.condition.salaryMin = 0;
+    //       this.condition.salaryMax = 1000000;
+    //       break;
+    //   }
+    //   console.log(this.condition);
+    //   this.conditionQueryEnterprise();
+    // },
+    // input_2_else_change() {
+    //   this.conditionQueryStudent();
+    // },
+    // input_3_change() {
+    //   this.conditionQueryEnterprise();
+    // },
+    // input_3_else_change() {
+    //   this.conditionQueryStudent();
+    // },
+    // input_4_change() {
+    //   this.conditionQueryEnterprise();
+    // },
+    // input_4_else_change() {
+    //   this.conditionQueryStudent();
+    // },
+    // removeCondition() {
+    //   this.condition = {
+    //     address: "",
+    //     isAsc: "true",
+    //     enterpriseAuth: "0",
+    //     name: "",
+    //     title: "",
+    //     pageNo: 1,
+    //     pageSize: 100,
+    //     salaryMax: 5000000,
+    //     salaryMin: 0,
+    //     sortBy: "",
+    //     type: "",
+    //   };
 
-      this.studentCondition = {
-        isAsc: "true",
-        name: "",
-        pageNo: 1,
-        pageSize: 100,
-        sortBy: "",
-        education: "",
-        gender: "",
-        major: "",
-        school: "",
-        resumeId: "1",
-      };
-
-      // Clear any selected salaryValue
-      this.salaryValue = "";
-      this.getList()
-      // Call the appropriate query method based on the user's identity
-      // if (this._identity === "student") {
-      //   this.conditionQueryStuudent();
-      // } else {
-      //   this.conditionQueryEnterprise();
-      // }
-    },
+    //   this.studentCondition = {
+    //     isAsc: "true",
+    //     name: "",
+    //     pageNo: 1,
+    //     pageSize: 100,
+    //     sortBy: "",
+    //     education: "",
+    //     gender: "",
+    //     major: "",
+    //     school: "",
+    //     resumeId: "1",
+    //   };
+    //   this.salaryValue = "";
+    //   this.getList();
+    // },
   },
   mounted() {
     this.getList();

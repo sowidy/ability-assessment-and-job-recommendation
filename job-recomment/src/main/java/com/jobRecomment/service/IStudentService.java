@@ -60,4 +60,8 @@ public interface IStudentService extends IService<Student> {
     void updatePhone(String phone);
 
     void updateUserById(Student user);
+
+    List<Student> queryBySkills(String skill);
+
+    void deleteRemarkByIds(String ids);
 }

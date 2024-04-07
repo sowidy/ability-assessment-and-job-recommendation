@@ -60,6 +60,30 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         student.setUpdateTime(LocalDateTime.now());
         updateById(student);
     }
+
+    @Override
+    public List<Student> queryBySkills(String skill) {
+        return lambdaQuery().
+                like(Student::getSkills, skill).
+                list();
+    }
+
+    @Override
+    public void deleteRemarkByIds(String ids) {
+        ids = ids.replaceAll("\\[|\\]", "").trim();
+        String[] idArray = ids.split(",");
+        List<String> idList = Arrays.asList(idArray);
+        List<Student> students = baseMapper.selectBatchIds(idList);
+        for (Student student : students) {
+            student.setRemark(null);
+            student.setRemarkText(null);
+            student.setTotalScore(null);
+            System.out.println(student + "\n-----------------------------------------------");
+        }
+        // 更新或保存这些记录
+        baseMapper.updateBatchById(students);
+    }
+
     @Override
     public List<Student> getUserList() {
         LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
@@ -142,13 +166,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public PageDTO<Student> queryStudent(StudentQuery query) {
         Page<Student> page =query.toMpPage();
         QueryWrapper<Student> wrapper = new QueryWrapper<>();
-//        wrapper.isNotNull("resume_id");
         if (StringUtils.isNotBlank(query.getName())) {
             wrapper.like("name", query.getName());
         }
-//        if (query.getBornYear() != null) {
-//            wrapper.like("born_year", query.getBornYear());
-//        }
         if (StringUtils.isNotBlank(query.getGender())) {
             wrapper.eq("gender", query.getGender());
         }
@@ -160,6 +180,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         }
         if (StringUtils.isNotBlank(query.getMajor())) {
             wrapper.like("major", query.getMajor());
+        }
+        if (StringUtils.isNotBlank(query.getSkills())){
+            wrapper.like("skills",query.getSkills());
         }
         if (query.getResumeId().equals("1")) wrapper.isNotNull("resume_id");
         Page<Student> p = baseMapper.selectPage(page, wrapper);
@@ -216,7 +239,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         }
         wrapper.isNotNull("remark").isNotNull("remark_text").isNotNull("total_score");
         Page<Student> p = baseMapper.selectPage(page, wrapper);
-//        RemarkVO vo= BeanUtil.copyProperties(p,RemarkVO.class);
         return PageDTO.of(p, RemarkVO.class);
     }
 

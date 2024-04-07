@@ -169,7 +169,8 @@ export default {
         gender: "",
         major: "",
         school: "",
-        resumeId:'1'
+        resumeId:'1',
+        skills:''
       },
     };
   },

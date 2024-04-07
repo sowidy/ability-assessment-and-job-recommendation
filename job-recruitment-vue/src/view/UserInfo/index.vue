@@ -243,9 +243,9 @@ export default {
     //   rgba(0, 181, 188, 0.89) 0%,
     //   rgba(62, 142, 240, 0.89) 100%
     // );
-    background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/cta-employee-list-v1.jpg) no-repeat;
-    background-size: 100% 100%;
-    background-position: top left;
+    background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/user_back.png) no-repeat;
+    background-size: 100% 200%;
+    background-position: top -20px left;
     .inner {
       display: flex;
       justify-content: space-around;

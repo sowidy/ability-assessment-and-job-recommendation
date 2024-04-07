@@ -46,4 +46,6 @@ public interface StudentMapper extends BaseMapper<Student> {
 
     @Update("update student set phone = #{phone},update_time = now() where id = #{id}")
     void updatePhone(@Param("id")Integer id ,@Param("phone")String phone);
+
+    int updateBatchById(@Param("students") List<Student> students);
 }

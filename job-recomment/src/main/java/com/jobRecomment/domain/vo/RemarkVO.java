@@ -17,6 +17,9 @@ import lombok.Data;
 @Data
 @ApiModel(description = "用户反馈信息VO")
 public class RemarkVO {
+    @ApiModelProperty("id")
+    private String id;
+
     @ApiModelProperty("姓名")
     private String name;
 
