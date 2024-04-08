@@ -29,7 +29,7 @@ public interface IStudentService extends IService<Student> {
 
     void updatePassword(String newPwd);
 
-    List<Student> getAllStudent();
+    List<Student> getAllStudent(Integer size);
 
     void updateAvatar(String avatarUrl);
 

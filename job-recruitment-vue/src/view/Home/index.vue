@@ -253,21 +253,15 @@ export default {
   data() {
     return {
       crouselImg: [
-        // {
-        //   img: "https://sxsimg.xiaoyuanzhao.com/3C/09/3C4A275077015CBF398443CC21774709.png",
-        // },
         {
-          img: "slogan.png",
+          img: "sys.png",
         },
         {
-          img: "slogan2.png",
+          img: "sys2.png",
         },
         {
           img: "slogan3.png",
         },
-        // {
-        //   img: "https://sxsimg.xiaoyuanzhao.com/FD/0C/FDBBBD21A98136E3054ADDD432A5020C.png",
-        // },
       ],
       hotTitle: [],
       hotRecomment: [],
@@ -291,14 +285,14 @@ export default {
   },
   methods: {
     getHotTitle() {
-      this.$API.enterprise.reGetHotTitle().then((resp) => {
+      this.$API.enterprise.reGetHotTitle(6).then((resp) => {
         // console.log(resp.data.data);
         this.hotTitle = resp.data.data;
       });
     },
     getHotRecomment() {
-      this.$API.enterprise.reGetHotRecomment("enterprise").then((resp) => {
-        this.hotRecomment = resp.data.data.slice(0, 4);
+      this.$API.enterprise.getByRandomSize(4).then((resp) => {
+        this.hotRecomment = resp.data.data;
         // console.log(this.hotRecomment, "###");
       });
     },
@@ -318,9 +312,9 @@ export default {
     // },
     getHotWorker() {
       this.$API.user
-        .getAllStudent()
+        .getAllStudent(4)
         .then((resp) => {
-          this.hotWorker = resp.data.data.slice(0, 3);
+          this.hotWorker = resp.data.data;
           // console.log(this.hotWorker,'@@@');
         })
         .catch((err) => {

@@ -41,14 +41,20 @@ public class PublicController {
 
     @GetMapping("/enterprise/list")
     @ApiOperation("获取所有认证企业列表接口")
-    public Result getAllAuthEnterprise(){
-        List<Enterprise> e = enterpriseService.getAllAuthList();
+    public Result getAllAuthEnterprise(Integer size){
+        List<Enterprise> e = enterpriseService.getAllAuthList(size);
         return Result.success(e);
+    }
+    @ApiOperation("随机获取几条数据")
+    @GetMapping("/getByRandom")
+    public Result<List<Enterprise>> getByRandomSize(Integer size){
+        List<Enterprise> randomSize = enterpriseService.getByRandomSize(size);
+        return Result.success(randomSize);
     }
     @GetMapping("/student/list")
     @ApiOperation("获取所有学生列表接口")
-    public Result getAllStudent(){
-        List<Student> s = studentService.getAllStudent();
+    public Result getAllStudent(Integer size){
+        List<Student> s = studentService.getAllStudent(size);
         return Result.success(s);
     }
     @ApiOperation("按不同条件查询企业")

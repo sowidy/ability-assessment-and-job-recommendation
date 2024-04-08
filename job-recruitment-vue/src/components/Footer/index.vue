@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
-    <a href=""><img src="" /><span></span></a>
-    <a href=""><img src="" /><span></span></a>
+    <!-- <a href=""><img src="" /><span></span></a>
+    <a href=""><img src="" /><span></span></a> -->
   </div>
 </template>
 

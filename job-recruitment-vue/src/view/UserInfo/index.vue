@@ -76,12 +76,17 @@
                   <span slot="title"> 上传简历 </span>
                 </el-menu-item></router-link
               >
-              <el-menu-item index="3">
-                <span slot="title"> 能力评估与建议 </span>
-              </el-menu-item>
-              <el-menu-item index="4">
-                <span slot="title"> 推荐列表 </span>
-              </el-menu-item>
+              <router-link class="link" to="/evaluation-recommendations">
+                <el-menu-item index="3">
+                  <span slot="title"> 能力评估与建议 </span>
+                </el-menu-item>
+              </router-link>
+              <router-link  class="link" to="/recommend">
+                <el-menu-item index="4">
+                  <span slot="title"> 推荐列表 </span>
+                </el-menu-item>
+              </router-link>
+
               <router-link class="link" to="/userinfo/setting">
                 <el-menu-item index="5">
                   <span slot="title"> 设置 </span>
@@ -167,7 +172,7 @@ export default {
       if (!isLt2M) {
         this.$notify.error("上传头像图片大小不能超过 2MB!");
       }
-      return isLt2M//&& isJPG  ;
+      return isLt2M; //&& isJPG  ;
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
@@ -243,7 +248,8 @@ export default {
     //   rgba(0, 181, 188, 0.89) 0%,
     //   rgba(62, 142, 240, 0.89) 100%
     // );
-    background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/user_back.png) no-repeat;
+    background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/user_back.png)
+      no-repeat;
     background-size: 100% 200%;
     background-position: top -20px left;
     .inner {

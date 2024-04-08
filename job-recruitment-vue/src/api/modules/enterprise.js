@@ -10,17 +10,17 @@ export function reGetEnterpriseList() {
 }
 
 //获取热门企业
-export function reGetHotTitle() {
+export function reGetHotTitle(size) {
   return request({
-    url: `/public/enterprise/list`,
+    url: `/public/enterprise/list?size=${size}`,
     method: 'get',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   })
 }
 //获取热门推荐岗位
-export function reGetHotRecomment(identity) {
+export function reGetHotRecomment(identity,size) {
   return request({
-    url: `/public/${identity}/list`,
+    url: `/public/${identity}/list?size=${size}`,
     method: 'get',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   })
@@ -100,4 +100,13 @@ export function uploadEnterpriseInfo(params) {
  */
 export function deleteByIds(ids) {
   return request.delete(`/enterprise/deleteByIds?ids=${ids}`);
+}
+
+/** 
+ * 随机获取几条数据
+ * @param {string} size size
+  * @returns
+ */
+export function getByRandomSize(size) {
+  return request.get(`/public/getByRandom?size=${size}`);
 }

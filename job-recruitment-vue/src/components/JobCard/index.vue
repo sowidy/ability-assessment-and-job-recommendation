@@ -10,12 +10,16 @@
           />
         </div>
         <div class="enterpriseInfo">
-          <h3>{{ i.name }} {{ i.title }}</h3>
-          <i class="el-icon-location-outline">{{ i.address }}</i>
+          <h3>
+            <span>{{ i.name }}</span> {{ i.title }}
+          </h3>
+          <i class="el-icon-location-outline">{{ i.address || '暂无信息' }}</i>
         </div>
         <div class="treat">
           <h5>￥{{ i.salaryMin }}-{{ i.salaryMax }}/月</h5>
-          <el-button round @click="goJobDetail(i.id)" type="primary">查看</el-button>
+          <el-button round @click="goJobDetail(i.id)" type="primary"
+            >查看</el-button
+          >
         </div>
       </div>
     </el-card>
@@ -40,7 +44,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-color: #ededed transparent;
-  border-left:none ;
+  border-left: none;
   border-right: none;
   box-shadow: none;
   .inner {
@@ -50,7 +54,7 @@ export default {
 
     .logo {
       // border: 1px rgb(175, 39, 24) solid;
-      width: 20%;
+      width: 15%;
       img {
         width: 100%;
         height: 100%;
@@ -59,18 +63,23 @@ export default {
     }
 
     .enterpriseInfo {
-      width: 55%;
+      width: 60%;
+      text-align: left;
       // border: 1px rgb(175, 39, 24) solid;
       position: relative;
       h3 {
         position: absolute;
         left: 20px;
-        // top: 20px;
+        padding: 3px 0;
+        span {
+          font-weight: 500;
+          font-size: 15px;
+        }
       }
       i {
         position: absolute;
         left: 20px;
-        top: 40px;
+        top: 50px;
       }
     }
 

@@ -2,6 +2,7 @@ package com.jobRecomment.service;
 
 import com.jobRecomment.domain.bean.Enterprise;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jobRecomment.domain.bean.Result;
 import com.jobRecomment.domain.dto.PageDTO;
 import com.jobRecomment.domain.query.EnterpriseQuery;
 
@@ -22,7 +23,7 @@ public interface IEnterpriseService extends IService<Enterprise> {
 
     List<Enterprise> getEnterpriseList();
 
-    List<Enterprise> getAllAuthList();
+    List<Enterprise> getAllAuthList(Integer size);
 
     PageDTO<Enterprise> conditionQuery(EnterpriseQuery query);
 
@@ -45,4 +46,6 @@ public interface IEnterpriseService extends IService<Enterprise> {
     void updatePassword(String newPwd);
 
     void updatePhone(String phone);
+
+    List<Enterprise> getByRandomSize(Integer size);
 }

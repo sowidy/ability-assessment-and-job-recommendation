@@ -130,9 +130,17 @@ export function getRemarkList() {
  * 获取所有学生列表接口
  * @returns
  */
-export function getAllStudent() {
-  return request.get(`/public/student/list`);
+export function getAllStudent(size) {
+  return request.get(`/public/student/list?size=${size}`);
 }
+
+// /** 
+//  * 获取所有学生列表接口
+//  * @returns
+//  */
+// export function reGetHotRecomment() {
+//   return request.get(`/public/student/list`);
+// }
 
 /** 
  * 按不同条件查询学生

@@ -17,23 +17,43 @@
         <div class="joblist">
           <div class="jobtips">
             <div class="info">
-              展示 1 – {{ condition.pageSize }} 中的 {{ pageList.total }} 条结果
+              展示 1 – {{ pageList.total }} 中的 {{ condition.pageSize }} 条结果
             </div>
+
             <div class="sort">
-              排序：
-              <el-select
+              <span>排序：</span>
+
+              <!-- <el-select
                 v-model="condition.sortBy"
                 placeholder="请选择"
                 @change="searchByCondition"
               >
                 <el-option
-                  v-for="item in options"
+                  v-for="item in 1"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
                 >
-                </el-option>
-              </el-select>
+                </el-option> -->
+              <div
+                class="right"
+                @click="change(item, index)"
+                v-for="(item, index) in options"
+                :key="index"
+              >
+                {{ item.lable }}
+                <div class="box-icon">
+                  <div
+                    class="up"
+                    :class="item.status === 0 ? 'opacity-5' : ''"
+                  ></div>
+                  <div
+                    class="down"
+                    :class="item.status === 0 ? 'opacity-1' : ''"
+                  ></div>
+                </div>
+              </div>
+              <!-- </el-select> -->
             </div>
           </div>
           <el-divider></el-divider>
@@ -99,7 +119,7 @@
                 <el-slider
                   v-model="salaryValue"
                   range
-                  :max="1000000"
+                  :max="100000"
                   @change="searchByCondition"
                   :debounce="1500"
                 >
@@ -119,35 +139,24 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      tagValues: ["Java", "php", "python", " Android"],
-      options: [
-        {
-          value: "name",
-          label: "名称",
-        },
-        {
-          value: "salary_min",
-          label: "薪资升序",
-        },
-        {
-          value: "salary_max",
-          label: "薪资降序",
-        },
-        {
-          value: "address",
-          label: "地址",
-        },
-        {
-          value: "type",
-          label: "类型",
-        },
+      tagValues: [
+        "高级前端工程师助理",
+        "前端开发",
+        "unity工程师",
+        " vue前端开发",
       ],
-      salaryValue: [4000, 400000],
+      options: [
+        { lable: "职位名称", status: "0", value: "title" },
+        { lable: "最低薪资", status: "0", value: "salary_min" },
+        { lable: "最高薪资", status: "0", value: "salary_max" },
+        { lable: "地址", status: "0", value: "address" },
+      ],
+      salaryValue: [0, 100000],
       currentPage: 1,
       condition: {
         address: "",
         enterpriseAuth: "0",
-        isAsc: "true",
+        isAsc: "false",
         name: "",
         title: "",
         pageNo: 1,
@@ -200,10 +209,74 @@ export default {
       this.condition.title = this.tagInput;
       this.searchByCondition();
     },
+    change(item, index) {
+      console.log(item, index);
+      this.options[index].status === 0
+        ? (this.options[index].status = 1)
+        : (this.options[index].status = 0);
+      this.condition.sortBy = this.options[index].value;
+      this.condition.isAsc = this.options[index].status;
+      this.searchByCondition();
+    },
   },
 };
 </script>
 
+<style lang="less" scoped>
+.right {
+  padding: 0 20px;
+  height: 32px;
+  color: #505363;
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 10px;
+  border: 1px solid rgb(233, 231, 231);
+  display: flex;
+  justify-content: center;
+  line-height: 32px;
+  cursor: pointer;
+}
+.right:hover {
+  color: #217aff;
+  border: 1px solid #217aff;
+  .up {
+    border-bottom: 6px solid #217aff;
+  }
+  .down {
+    border-top: 6px solid #217aff;
+  }
+}
+.opacity-5 {
+  opacity: 0.5;
+}
+.opacity-1 {
+  opacity: 1 !important;
+}
+.box-icon {
+  height: 30px;
+  margin-top: 7px;
+  .up {
+    width: 0px; /*设置宽高为0，所以div的内容为空，从才能形成三角形尖角*/
+    height: 0px;
+    border-bottom: 6px solid #a3a5b3;
+    border-left: 4px solid transparent; /*transparent 表示透明*/
+    border-right: 4px solid transparent;
+    margin-bottom: 4px;
+  }
+  .down {
+    width: 0px;
+    height: 0px;
+    opacity: 0.5;
+    border-top: 6px solid #a3a5b3;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+  }
+}
+.box-icon div {
+  height: 10px;
+  margin-left: 4px;
+}
+</style>
 <style lang='less' scoped>
 .container {
   // margin: 5% 10%;
@@ -253,7 +326,15 @@ export default {
           margin-top: 2%;
         }
         .sort {
-          margin-top: 5px;
+          width: 500px;
+
+          margin-top: 1%;
+          display: flex;
+          text-align: center;
+          // border: 1px saddlebrown solid;
+          span {
+            margin-top: 1.5%;
+          }
         }
       }
 
@@ -268,7 +349,7 @@ export default {
       .title {
         font-size: 25px;
         margin-top: 15px;
-        height: 57px;
+        height: 74px;
         // text-align: center;
         // background: #2dced4;
         background-image: linear-gradient(

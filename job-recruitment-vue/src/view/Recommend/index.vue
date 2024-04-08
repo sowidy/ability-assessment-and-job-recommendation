@@ -183,16 +183,18 @@
                 <div class="title-name">
                   <el-tag type="success">{{ i.title }}</el-tag>
                 </div>
-                <div class="salary">{{ i.salaryMin }}-{{ i.salaryMax }}k</div>
+                <div class="salary">{{ i.salaryMin }}-{{ i.salaryMax }}/月</div>
               </div>
               <div class="tag">
-                <el-tag type="">HTML</el-tag>
+                <span>{{ i.address }}</span>
+                <!-- <el-tag type="">HTML</el-tag>
                 <el-tag type="">Java</el-tag>
-                <el-tag type="">Python</el-tag>
+                <el-tag type="">Python</el-tag> -->
               </div>
               <div class="name">
                 <img :src="i.logo" alt="" />
-                <div>{{ i.name }}</div>
+                <div>{{ i.name }} </div>
+                <!-- <el-tag type="" style="margin-left:30px;margin-buttom:2px"><span > {{i.titleRequire}}</span></el-tag> -->
                 <!-- <div>{{ i.address }}</div> -->
               </div>
             </el-card>
@@ -339,10 +341,12 @@ export default {
     getList() {
       this.$API.enterprise
         .reGetHotRecomment(
-          this._identity == "student" ? "enterprise" : "student"
+          this._identity == "student" ? "enterprise" : "student",
+          "20"
         )
         .then((resp) => {
           this.recommentList = resp.data.data;
+          console.log(this.recommentList);
         });
     },
     changeSelectID(id, identity) {
@@ -648,6 +652,11 @@ export default {
             display: flex;
             justify-content: space-between;
             height: 100%;
+            .title-name {
+              .el-tag {
+                font-size: 17px;
+              }
+            }
             .salary {
               color: red;
               font-size: 20px;
@@ -697,6 +706,7 @@ export default {
             top: 110px;
             left: 10px;
             display: flex;
+            text-align: center;
             // justify-content: space-between;
             img {
               width: 20px;

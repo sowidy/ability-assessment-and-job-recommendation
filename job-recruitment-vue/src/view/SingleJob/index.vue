@@ -35,8 +35,22 @@
                 <!-- <el-button type="primary" round>跳转</el-button> -->
                 <el-card>
                   <div>
-                    <div class="salary" style="text-align:center;color:#66b1ff;font-size:20px">薪  资</div><br>
-                    <span>{{enterprise.salaryMin}}k——{{enterprise.salaryMax}}k</span>
+                    <div
+                      class="salary"
+                      style="
+                        text-align: center;
+                        color: #66b1ff;
+                        font-size: 20px;
+                      "
+                    >
+                      薪 资
+                    </div>
+                    <br />
+                    <span
+                      >{{ enterprise.salaryMin }}——{{
+                        enterprise.salaryMax
+                      }}/月</span
+                    >
                   </div>
                 </el-card>
               </div>
@@ -50,17 +64,16 @@
             <div class="row">
               <el-col :span="9" class="col-md-9">
                 <div class="col-md-12 single_job_main">
+                  <!-- <h2 class="require">
+                    学历要求:
+                    <p style="display:inline">
+                      {{ enterprise.titleRequire }}
+                    </p>
+                  </h2> -->
+
                   <h2>职位描述</h2>
                   <p>
-                    {{
-                      enterprise.titleDescription
-                    }}我们正在寻找一名有经验的智能交通工程师加入我们的团队，共同推动交通行业的智能化发展。我们正在寻找一名有经验的智能交通工程师加入我们的团队，共同推动交通行业的智能化发展。我们正在寻找一名有经验的智能交通工程师加入我们的团队，共同推动交通行业的智能化发展。我们正在寻找一名有经验的智能交通工程师加入我们的团队，共同推动交通行业的智能化发展。
-                  </p>
-                  <h2>职位要求</h2>
-                  <p>
-                    {{
-                      enterprise.titleRequire
-                    }}医学、计算机科学或相关领域的学士学位医学、计算机科学或相关领域的学士学位医学、计算机科学或相关领域的学士学位医学、计算机科学或相关领域的学士学位医学、计算机科学或相关领域的学士学位
+                    {{ enterprise.titleDescription }}
                   </p>
                 </div>
                 <div class="simple">
@@ -82,6 +95,12 @@
                   <div slot="header">职位总结</div>
                   <div>
                     <ul>
+                      <li>
+                        <span
+                          ><i class="el-icon-price-tag"></i
+                          >{{ enterprise.titleRequire }}</span
+                        >
+                      </li>
                       <li>
                         <span
                           ><i class="el-icon-location"></i
@@ -157,8 +176,8 @@ export default {
   },
   methods: {
     getHotTitle() {
-      this.$API.enterprise.reGetHotTitle().then((resp) => {
-        this.hotTitle = resp.data.data.slice(0, 2);
+      this.$API.enterprise.reGetHotTitle(2).then((resp) => {
+        this.hotTitle = resp.data.data;
       });
     },
     getEnterpriseDetail() {
@@ -203,7 +222,7 @@ div {
       padding-bottom: 0px;
       background-image: url("~@/assets/bg-4.png");
       // background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/cta-employee-list-v1.jpg)
-        // no-repeat;
+      // no-repeat;
       background-attachment: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
@@ -300,13 +319,18 @@ div {
               font-size: 24px;
               margin-bottom: 25px;
             }
+            .require {
+              margin-bottom: 20px;
+              font-size: 20px;
+              font-weight: 500;
+            }
             p {
               margin-top: 0;
               margin-bottom: 5%;
             }
             .simple {
               margin-top: 20%;
-              width: 80%;
+              width: 95%;
             }
             iframe {
               border: 1px solid black;

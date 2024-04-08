@@ -10,8 +10,8 @@
             <div class="left-list">
               <div class="jobtips">
                 <div class="info">
-                  展示 1 – {{ pageList.total }} 条中的
-                  {{ condition.pageSize }} 结果
+                  展示 1 – {{condition.pageSize  }} 条中的
+                  {{ pageList.total }} 结果
                 </div>
                 <!-- <div class="sort">
                   Sort by:

@@ -103,10 +103,11 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public List<Student> getAllStudent() {
+    public List<Student> getAllStudent(Integer size) {
         LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
         wrapper.isNotNull(Student::getResumeId);
-        return list(wrapper);
+        wrapper.last("LIMIT " + size);
+        return baseMapper.selectList(wrapper);
     }
 
     @Override

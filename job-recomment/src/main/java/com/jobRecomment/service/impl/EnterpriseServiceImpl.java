@@ -2,8 +2,10 @@ package com.jobRecomment.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jobRecomment.domain.bean.Enterprise;
+import com.jobRecomment.domain.bean.Result;
 import com.jobRecomment.domain.bean.Student;
 import com.jobRecomment.domain.dto.PageDTO;
 import com.jobRecomment.domain.query.EnterpriseQuery;
@@ -48,8 +50,12 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
     }
 
     @Override
-    public List<Enterprise> getAllAuthList() {
-        return lambdaQuery().eq(Enterprise::getEnterpriseAuth,0).list();
+    public List<Enterprise> getAllAuthList(Integer size) {
+//        return lambdaQuery().eq(Enterprise::getEnterpriseAuth,0).list();
+        QueryWrapper<Enterprise> queryWrapper = Wrappers.query();
+        queryWrapper.eq("enterprise_auth", 0);
+        queryWrapper.last("LIMIT " + size);
+        return baseMapper.selectList(queryWrapper);
     }
 
     @Override
@@ -161,4 +167,12 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
         Integer id = (Integer) map.get("id");
         baseMapper.updatePhone(id,phone);
     }
+
+    @Override
+    public List<Enterprise> getByRandomSize(Integer size) {
+        QueryWrapper<Enterprise> queryWrapper = Wrappers.query();
+        queryWrapper.last("LIMIT " + size);
+        return baseMapper.selectList(queryWrapper);
+    }
+
 }
