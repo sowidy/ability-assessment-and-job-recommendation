@@ -193,7 +193,7 @@
               </div>
               <div class="name">
                 <img :src="i.logo" alt="" />
-                <div>{{ i.name }} </div>
+                <div>{{ i.name }}</div>
                 <!-- <el-tag type="" style="margin-left:30px;margin-buttom:2px"><span > {{i.titleRequire}}</span></el-tag> -->
                 <!-- <div>{{ i.address }}</div> -->
               </div>
@@ -210,7 +210,30 @@
                   }}</i>
                 </div>
                 <div class="header-right">
-                  <el-button round @click="goJobDetail(aDatailTitle.id)"
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    :content="like ? '已收藏' : '点击收藏职位'"
+                    placement="top"
+                  >
+                    <span class="like" @click="addOrDeleteFavorite">
+                      <transition
+                        enter-active-class="animate__animated animate__bounce"
+                      >
+                        <i
+                          v-if="like == true"
+                          class="el-icon-star-on"
+                          style="color: #e6a23c"
+                        />
+                      </transition>
+                      <i v-if="like == false" class="el-icon-star-off" />
+                    </span>
+                  </el-tooltip>
+
+                  <el-button
+                    type="primary"
+                    round
+                    @click="goJobDetail(aDatailTitle.id)"
                     >查看</el-button
                   >
                 </div>
@@ -276,7 +299,8 @@ export default {
   name: "Recomment",
   data() {
     return {
-      selectID: 1,
+      like: false,
+      selectID: 0,
       recommentList: [],
       aDatailTitle: "",
       dynamicTags: [],
@@ -337,7 +361,57 @@ export default {
       deep: true,
     },
   },
+  beforeMount() {
+    this.getList();
+    this.getATitleDetail();
+  },
   methods: {
+    addOrDeleteFavorite() {
+      if (!this.like) {
+        this.$API.user
+          .addFavoriteTitle(this.selectID)
+          .then((resp) => {
+            if (resp.data.code == 0) {
+              this.$notify({
+                type: "success",
+                message: "收藏成功",
+              });
+              this.like = true;
+            } else this.$notify.error(resp.data.message);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.$API.user
+          .deleteFavoriteTitle(this.selectID)
+          .then((resp) => {
+            if (resp.data.code == 0) {
+              this.$notify({
+                type: "success",
+                message: "取消收藏",
+              });
+              this.like = false;
+            } else this.$notify.error(resp.data.message);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    checkFavoriteState() {
+      this.$API.user
+        .checkFavorite(this.selectID)
+        .then((resp) => {
+          if (resp.data.code == 0) {
+            this.like = resp.data.data;
+            console.log(this.like);
+          } else this.like = false;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     getList() {
       this.$API.enterprise
         .reGetHotRecomment(
@@ -354,12 +428,13 @@ export default {
       this.getATitleDetail(this.selectID, identity);
     },
     getATitleDetail(
-      id = 1,
+      id = 0,
       identity = this._identity == "student" ? "Enterprise" : "Student"
     ) {
       this.aDatailTitle = [];
       this.$API.enterprise.findHotById(id, identity).then((resp) => {
         this.aDatailTitle = resp.data.data;
+        this.checkFavoriteState();
       });
     },
     handleClose(tag) {
@@ -531,10 +606,6 @@ export default {
     //   this.salaryValue = "";
     //   this.getList();
     // },
-  },
-  mounted() {
-    this.getList();
-    this.getATitleDetail();
   },
 };
 </script>
@@ -756,6 +827,12 @@ export default {
                 position: absolute;
                 top: 15px;
                 right: 40px;
+              }
+              .like {
+                margin-top: 1px;
+                cursor: pointer;
+                font-size: 50px;
+                display: inline-block;
               }
             }
           }

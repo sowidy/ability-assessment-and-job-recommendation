@@ -2,6 +2,7 @@ package com.jobRecomment.controller;
 import com.jobRecomment.domain.bean.Enterprise;
 import com.jobRecomment.domain.bean.Result;
 import com.jobRecomment.domain.bean.Student;
+import com.jobRecomment.domain.dto.PageDTO;
 import com.jobRecomment.service.IEnterpriseService;
 import com.jobRecomment.utils.JwtUtil;
 import com.jobRecomment.utils.Md5Util;
@@ -157,5 +158,12 @@ public class EnterpriseController {
     public Result getTotalCount(){
         Integer count = enterpriseService.getTotalCount();
         return  Result.success(count);
+    }
+    @ApiOperation("通过ids获取企业信息")
+    @GetMapping("/getByIds")
+    public Result<PageDTO<Enterprise>> getEnterpriseById(String ids){
+//        System.out.println(ids + "\n-------------------------------------");
+        PageDTO<Enterprise> list = enterpriseService.getTitleByIds(ids);
+        return Result.success(list);
     }
 }

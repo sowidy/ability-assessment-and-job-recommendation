@@ -86,9 +86,13 @@
                   <span slot="title"> 推荐列表 </span>
                 </el-menu-item>
               </router-link>
-
-              <router-link class="link" to="/userinfo/setting">
+              <router-link  class="link" to="/userinfo/favorite">
                 <el-menu-item index="5">
+                  <span slot="title"> 收藏列表 </span>
+                </el-menu-item>
+              </router-link>
+              <router-link class="link" to="/userinfo/setting">
+                <el-menu-item index="6">
                   <span slot="title"> 设置 </span>
                 </el-menu-item></router-link
               >
@@ -183,10 +187,10 @@ export default {
           return "1";
         case "/userinfo/resume":
           return "2";
-        // case "/userinfo/evaluate":
-        //   return "3";
-        case "/userinfo/setting":
+        case "/userinfo/favorite":
           return "5";
+        case "/userinfo/setting":
+          return "6";
         default:
           return "1";
       }

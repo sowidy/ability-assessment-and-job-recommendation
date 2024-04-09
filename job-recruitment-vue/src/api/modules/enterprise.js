@@ -110,3 +110,12 @@ export function deleteByIds(ids) {
 export function getByRandomSize(size) {
   return request.get(`/public/getByRandom?size=${size}`);
 }
+
+/** 
+ * 通过ids获取企业信息
+ * @param {string} ids ids
+  * @returns
+ */
+export function getEnterpriseById(ids) {
+  return request.get(`/enterprise/getByIds?ids=${ids}`);
+}

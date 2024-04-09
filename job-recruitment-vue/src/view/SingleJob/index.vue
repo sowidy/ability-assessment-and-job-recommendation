@@ -8,6 +8,25 @@
             <div class="header_job_single_inner container">
               <div class="poster_company">
                 <img :src="enterprise.logo || 'defaultEnAvatar.jpg'" alt="" />
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  :content="like ? '已收藏' : '点击收藏职位'"
+                  placement="top"
+                >
+                  <span class="like" @click="addOrDeleteFavorite">
+                    <transition
+                      enter-active-class="animate__animated animate__bounce"
+                    >
+                      <i
+                        v-if="like == true"
+                        class="el-icon-star-on"
+                        style="color: #e6a23c"
+                      />
+                    </transition>
+                    <i v-if="like == false" class="el-icon-star-off" />
+                  </span>
+                </el-tooltip>
               </div>
               <div class="poster_details">
                 <h2>
@@ -33,6 +52,7 @@
               </div>
               <div class="poster_action">
                 <!-- <el-button type="primary" round>跳转</el-button> -->
+
                 <el-card>
                   <div>
                     <div
@@ -122,9 +142,9 @@
                       <li>
                         <span
                           ><i class="el-icon-wallet"></i
-                          >{{ enterprise.salaryMin }}k-{{
+                          >{{ enterprise.salaryMin }}-{{
                             enterprise.salaryMax
-                          }}k</span
+                          }}</span
                         >
                       </li>
                     </ul>
@@ -154,6 +174,7 @@ export default {
   name: "SingleJob",
   data() {
     return {
+      like: "",
       hotTitle: [],
       queryId: "",
       enterprise: "",
@@ -186,12 +207,59 @@ export default {
         .then((resp) => {
           if (resp.data.code == 0) {
             this.enterprise = resp.data.data;
-            console.log(this.enterprise);
+            // console.log(this.enterprise);
+            this.checkFavoriteState();
           } else this.$router.push("/");
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    checkFavoriteState() {
+      this.$API.user
+        .checkFavorite(this.$route.query.id)
+        .then((resp) => {
+          if (resp.data.code == 0) {
+            this.like = resp.data.data;
+            console.log(this.like);
+          } else this.like = false;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    addOrDeleteFavorite() {
+      if (!this.like) {
+        this.$API.user
+          .addFavoriteTitle(this.$route.query.id)
+          .then((resp) => {
+            if (resp.data.code == 0) {
+              this.$notify({
+                type: "success",
+                message: "收藏成功",
+              });
+              this.like = true;
+            } else this.$notify.error(resp.data.message);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.$API.user
+          .deleteFavoriteTitle(this.$route.query.id)
+          .then((resp) => {
+            if (resp.data.code == 0) {
+              this.$notify({
+                type: "success",
+                message: "取消收藏",
+              });
+              this.like = false;
+            } else this.$notify.error(resp.data.message);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
   },
 };
@@ -247,6 +315,13 @@ div {
             border-radius: 10px;
 
             // float: right;
+          }
+          .like {
+            margin-top: 1px;
+            cursor: pointer;
+            font-size: 50px;
+            display: inline-block;
+            margin-left: 30%;
           }
         }
         .poster_details {

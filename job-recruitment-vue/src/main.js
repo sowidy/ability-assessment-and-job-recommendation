@@ -12,6 +12,7 @@ import Remark from "@/components/Remark";
 import Header from '@/components/Header'
 import JobCard from '@/components/JobCard'
 import StuCard from '@/components/StuCard'
+import FavoriteCard from '@/components/FavoriteCard'
 import Footer from '@/components/Footer'
 import { formatDate } from "@/utils/utilities";
 import PopupProgress from "@/components/popup-progress";
@@ -22,6 +23,7 @@ Vue.prototype.$echarts = echarts;
 // Vue.use(AOS)
 Vue.use(PopupProgress);
 Vue.component(Carsousel.name, Carsousel);
+Vue.component(FavoriteCard.name, FavoriteCard);
 Vue.component(JobCard.name, JobCard);
 Vue.component(StuCard.name, StuCard);
 Vue.component(Remark.name, Remark);

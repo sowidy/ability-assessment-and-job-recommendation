@@ -35,6 +35,9 @@
               <el-dropdown-item @click.native="goResume"
                 >上传简历</el-dropdown-item
               >
+              <el-dropdown-item @click.native="goFavorite"
+                >收藏</el-dropdown-item
+              >
               <el-dropdown-item @click.native="goSetting"
                 >设置</el-dropdown-item
               >
@@ -230,6 +233,9 @@ export default {
     },
     goResume() {
       this.$router.push({ name: "Resume" });
+    },
+    goFavorite(){
+      this.$router.push({ name: "Favorite" });
     },
     goSetting() {
       this.$router.push({ name: "UserSetting" });

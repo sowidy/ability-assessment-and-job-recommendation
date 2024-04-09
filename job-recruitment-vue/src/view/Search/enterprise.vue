@@ -63,9 +63,10 @@
               background
               @current-change="handleCurrentChange"
               :current-page="condition.pageNo"
+              
               :page-sizes="[10, 20, 30, 40]"
               :page-size="condition.pageSize"
-              layout="prev, pager, next,->,total"
+              layout="prev, pager, next,jumper,->,total"
               :total="pageList.total"
             >
             </el-pagination>
@@ -223,6 +224,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+:root {
+  --animate-duration: 500ms;
+  --animate-delay: -2s;
+}
 .right {
   padding: 0 20px;
   height: 32px;
@@ -339,7 +344,8 @@ export default {
       }
 
       .block {
-        margin-top: 5%;
+        margin: 5% 0;
+        height: 100%;
       }
     }
 

@@ -244,3 +244,46 @@ export function updateUserPassword(state, params) {
 export function updatePhone(state, phoneForm) {
   return request.patch(`/${state}/update/phone?phone=${phoneForm.phone}`);
 }
+
+/** 
+ * 查询收藏
+ * @param {string} titleId titleId
+  * @returns
+ */
+export function checkFavorite(titleId) {
+  return request.post(`/favorite/checkFavorite?titleId=${titleId}`);
+}
+
+/** 
+ * 添加收藏
+ * @param {string} titleId titleId
+  * @returns
+ */
+export function addFavoriteTitle(titleId) {
+  return request.post(`/favorite/addTitle?titleId=${titleId}`);
+}
+
+/** 
+ * 删除收藏
+ * @param {string} TitleId TitleId
+  * @returns
+ */
+export function deleteFavoriteTitle(TitleId) {
+  return request.delete(`/favorite/deleteTitle?TitleId=${TitleId}`);
+}
+
+/** 
+ * 获取收藏职位id
+ * @returns
+ */
+export function getFavoriteId() {
+  return request.get(`/favorite/getFavoriteId`);
+}
+
+/** 
+ * 删除所有收藏
+ * @returns
+ */
+export function deleteAllFavoriteTitles() {
+  return request.delete(`/favorite/deleteAllTitle`);
+}

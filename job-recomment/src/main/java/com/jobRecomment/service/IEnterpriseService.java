@@ -48,4 +48,6 @@ public interface IEnterpriseService extends IService<Enterprise> {
     void updatePhone(String phone);
 
     List<Enterprise> getByRandomSize(Integer size);
+
+    PageDTO<Enterprise> getTitleByIds(String ids);
 }

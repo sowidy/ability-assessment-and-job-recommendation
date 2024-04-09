@@ -14,6 +14,7 @@ import com.jobRecomment.service.IEnterpriseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jobRecomment.utils.Md5Util;
 import com.jobRecomment.utils.ThreadLocalUtil;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -87,6 +89,22 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
         return PageDTO.of(p, Enterprise.class);
     }
 
+    @Override
+    public PageDTO<Enterprise> getTitleByIds(String ids) {
+        if (StringUtils.isBlank(ids)) {
+            return null;
+        }
+        List<Long> idList = Arrays.stream(ids.split(","))
+                .map(Long::valueOf)
+                .collect(Collectors.toList());
+        QueryWrapper<Enterprise> wrapper = new QueryWrapper<>();
+        wrapper.in("id", idList);
+        List<Enterprise> enterpriseList = baseMapper.selectList(wrapper);
+        Page<Enterprise> page = new Page<>(1, enterpriseList.size());
+        page.setRecords(enterpriseList);
+        page.setTotal(enterpriseList.size());
+        return PageDTO.of(page, Enterprise.class);
+    }
     @Override
     public Enterprise findById(String id) {
         return getById(id);
@@ -174,5 +192,7 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
         queryWrapper.last("LIMIT " + size);
         return baseMapper.selectList(queryWrapper);
     }
+
+
 
 }

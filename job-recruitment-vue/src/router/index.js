@@ -75,6 +75,11 @@ const routers = [
         component: () => import('@/view/UserInfo/ResumeEdit')
       },
       {
+        path: 'favorite',
+        name: 'Favorite',
+        component: () => import('@/view/UserInfo/Favorite')
+      },
+      {
         path: 'setting',
         name: 'UserSetting',
         component: () => import('@/view/setting')

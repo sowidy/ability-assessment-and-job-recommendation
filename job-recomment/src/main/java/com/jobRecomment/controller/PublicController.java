@@ -52,7 +52,7 @@ public class PublicController {
         return Result.success(randomSize);
     }
     @GetMapping("/student/list")
-    @ApiOperation("获取所有学生列表接口")
+    @ApiOperation("随机获取几条学生信息接口")
     public Result getAllStudent(Integer size){
         List<Student> s = studentService.getAllStudent(size);
         return Result.success(s);
@@ -60,7 +60,6 @@ public class PublicController {
     @ApiOperation("按不同条件查询企业")
     @GetMapping("/queryByCondition")
     public Result<PageDTO<Enterprise>> conditionQuery(EnterpriseQuery query){
-        System.out.println(query);
         PageDTO<Enterprise> list = enterpriseService.conditionQuery(query);
         return Result.success(list);
     }
