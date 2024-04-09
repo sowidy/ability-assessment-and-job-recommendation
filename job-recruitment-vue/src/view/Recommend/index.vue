@@ -361,9 +361,9 @@ export default {
       deep: true,
     },
   },
-  beforeMount() {
-    this.getList();
-    this.getATitleDetail();
+  async beforeMount() {
+    await this.getList();
+    await this.getATitleDetail();
   },
   methods: {
     addOrDeleteFavorite() {
@@ -412,29 +412,30 @@ export default {
           console.log(err);
         });
     },
-    getList() {
-      this.$API.enterprise
+    async getList() {
+      await this.$API.enterprise
         .reGetHotRecomment(
           this._identity == "student" ? "enterprise" : "student",
           "20"
         )
         .then((resp) => {
           this.recommentList = resp.data.data;
-          console.log(this.recommentList);
+          // console.log(this.recommentList);
         });
     },
     changeSelectID(id, identity) {
       this.selectID = id;
       this.getATitleDetail(this.selectID, identity);
     },
-    getATitleDetail(
-      id = 0,
+    async getATitleDetail(
+      // id = this._identity == "student" ? 0 : 1,
+      id =this.recommentList[0].id,
       identity = this._identity == "student" ? "Enterprise" : "Student"
     ) {
       this.aDatailTitle = [];
-      this.$API.enterprise.findHotById(id, identity).then((resp) => {
+      await this.$API.enterprise.findHotById(id, identity).then((resp) => {
         this.aDatailTitle = resp.data.data;
-        this.checkFavoriteState();
+        if(this._identity == 'student') this.checkFavoriteState();
       });
     },
     handleClose(tag) {

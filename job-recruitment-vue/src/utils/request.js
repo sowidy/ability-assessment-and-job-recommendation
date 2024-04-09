@@ -1,6 +1,6 @@
 import axios from "axios";
 import nProgress from 'nprogress';
-import {Notification } from "element-ui";
+import { Notification } from "element-ui";
 //引入进度条样式
 import 'nprogress/nprogress.css'
 import store from "@/store";
@@ -17,8 +17,8 @@ service.interceptors.request.use(config => {
   //进度条开始
   nProgress.start();
   //以后加token
-  if (store.state.user.token ||getToken()) {
-    config.headers.token = store.state.user.token ||getToken();
+  if (store.state.user.token || getToken()) {
+    config.headers.token = store.state.user.token || getToken();
   }
   return config
 }, error => {
@@ -38,7 +38,7 @@ service.interceptors.response.use(response => {
     switch (error.response.status) {
       // 401: 未登录
       case 401:
-        Notification.error('未登录');
+        Notification.error('未授权，请重新登录');
         router.push("/login")
         break
       // 403： 登录过期
@@ -51,9 +51,27 @@ service.interceptors.response.use(response => {
         Notification.error('网络请求不存在');
         break
       // 500: 服务错误
+      case 408:
+        Notification.error = ('请求超时')
+        break;
       case 500:
         Notification.error('网络请求有误');
         break
+      case 501:
+        Notification.error = ('网络未实现')
+        break;
+      case 502:
+        Notification.error = ('网络错误')
+        break;
+      case 503:
+        Notification.error = ('服务不可用')
+        break;
+      case 504:
+        Notification.error = ('网络超时')
+        break;
+      case 505:
+        Notification.error = ('http版本不支持该请求')
+        break;
       default:
         Notification.error('服务错误');
     }

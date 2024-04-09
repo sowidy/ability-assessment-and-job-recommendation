@@ -26,8 +26,8 @@ import java.util.List;
 public class AliOSSUtil {
 
     private static final String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";
-    private static final String accessKeyId = "";
-    private static final String accessKeySecret = "";
+    private static final String accessKeyId = "LTAI5tPHe97h73cNRi4fCnjB";
+    private static final String accessKeySecret = "39co7uHaieKBouQmSy5Id2NHrSSj69";
     private static final String bucketName = "job-test";
     /**
      * 将文件上传到阿里OSS
