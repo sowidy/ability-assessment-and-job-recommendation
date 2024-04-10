@@ -153,10 +153,10 @@ export default {
               });
               this.$notify({
                 type: "success",
-                message: "修改成功",
+                message: "获取成功",
               });
               
-              this.$router.push({ name: "Evaluate" });
+              // this.$router.push({ name: "Evaluate" });
             }
           })
           .catch((err) => {
