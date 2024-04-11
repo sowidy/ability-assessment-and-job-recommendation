@@ -54,7 +54,7 @@
                     type="info"
                     plain
                     @click="feedback"
-                    v-if="_identity != 'enterprise'"
+                    v-if="_identity !== 'enterprise'"
                     >不满意?反馈系统</el-button
                   >
                 </div>

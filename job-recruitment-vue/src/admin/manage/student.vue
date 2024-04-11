@@ -22,7 +22,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column type="index" width="55" label="序号" />
+        <el-table-column type="index" width="55" label="序号" sortable/>
         <el-table-column prop="avatar" label="头像" width="120" align="center">
           <template slot-scope="scope">
             <div>
@@ -48,6 +48,7 @@
           label="年龄"
           width="120"
           align="center"
+          sortable
         >
           <template slot-scope="scope">
             <div>{{ getCurrentAge(scope.row.bornYear) }}</div>

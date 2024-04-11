@@ -22,7 +22,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column type="index" width="55" label="序号" />
+        <el-table-column type="index" width="55" label="序号" sortable/>
         <el-table-column prop="avatar" label="logo" width="120">
           <template slot-scope="scope">
             <div>
