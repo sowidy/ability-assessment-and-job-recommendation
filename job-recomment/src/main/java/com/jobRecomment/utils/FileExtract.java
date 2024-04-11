@@ -18,11 +18,12 @@ public class FileExtract {
 
     public static void setPDFFileToText(Resume resume) throws Exception {
         // 文件夹路径
-        String folderPath = System.getProperty("user.home") + "\\AppData\\Roaming\\ideatempfile\\";
+//        String folderPath = System.getProperty("user.home") + "\\AppData\\Roaming\\ideatempfile\\";
+        String folderPath = "D:\\data\\";
         // 要写入的文本内容
         String context = fileExtractText(folderPath + resume.getLinkName());
         // 文件路径
-        String filePath = folderPath + resume.getLinkName() + ".txt";
+        String filePath = folderPath + "data.txt";
         try {
             // 检查文件夹是否存在，如果不存在则创建文件夹
             Path path = Paths.get(folderPath);

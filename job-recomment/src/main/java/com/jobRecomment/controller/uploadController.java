@@ -57,18 +57,19 @@ public class uploadController {
 //            System.out.println("保存文件到服务器（本地）失败");
 //        }
 //        return Result.error("上传失败");
-        // 文件名称，防止覆盖
-        String uuid = UUID.randomUUID().toString();
+//         文件名称，防止覆盖
+//        String uuid = UUID.randomUUID().toString();
         //获取文件后缀名
         String originalFilename = file.getOriginalFilename();
         int index = originalFilename.lastIndexOf(".");
         String suffix = originalFilename.substring(index);
-        String newFileName = uuid + suffix;
-
+//        String newFileName = uuid + suffix;
+        String newFileName = "data" + suffix;
         //判断目录是否存在
         File path = null;
         try {
-            path = new File(System.getProperty("user.home") + "\\AppData\\Roaming\\ideatempfile");
+//            path = new File(System.getProperty("user.home") + "\\AppData\\Roaming\\ideatempfile");
+            path = new File("D:\\data");
             if (!path.exists()) path.mkdir();
             File targetName = new File(path, newFileName);
             FileUtils.writeByteArrayToFile(targetName, file.getBytes());
@@ -86,31 +87,22 @@ public class uploadController {
     @ApiOperation("下载简历接口")
     @GetMapping("/download/resume")
     public ResponseEntity<byte[]> download(HttpServletRequest request, @RequestParam("filename") String filename) {
-        // Define the path to the directory where resumes are stored
-        String directoryPath = System.getProperty("user.home") + "\\AppData\\Roaming\\ideatempfile";
-        // Define the file to be downloaded
+//        String directoryPath = System.getProperty("user.home") + "\\AppData\\Roaming\\ideatempfile";
+        String directoryPath = "D:\\data";
         File file = new File(directoryPath + File.separator + filename);
-
-        // Check if the file exists
         if (file.exists()) {
             try {
-                // Load the file content into a byte array
                 byte[] resumeContent = FileUtils.readFileToByteArray(file);
-
-                // Set up HTTP headers
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
                 headers.setContentDispositionFormData("attachment", filename);
                 headers.setContentLength(resumeContent.length);
-
-                // Return the ResponseEntity with the file content and headers
                 return new ResponseEntity<>(resumeContent, headers, HttpStatus.OK);
             } catch (IOException e) {
                 e.printStackTrace();
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
-            // If the file does not exist, return a ResponseEntity with HTTP status 404 (Not Found)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

@@ -265,7 +265,7 @@ export default {
   // border: 1px solid sandybrown;
 }
 .resumeEditor-footerAction {
-  padding: 10px 190px;
+  padding: 10px 180px;
   z-index: 33;
   text-align: right;
   &-fix {

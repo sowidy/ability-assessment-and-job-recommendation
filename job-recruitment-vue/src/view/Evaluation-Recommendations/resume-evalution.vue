@@ -124,7 +124,7 @@ export default {
             { name: "工作经验", max: 10 },
             { name: "个人特质", max: 10 },
             { name: "交往特质", max: 10 },
-            { name: "决策能力", max: 10 },
+            { name: "证书评估", max: 10 },
           ],
         },
         series: [
