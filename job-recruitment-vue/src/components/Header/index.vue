@@ -100,7 +100,7 @@
                   >交往特质评价：<el-rate v-model="com" show-text> </el-rate
                 ></span>
                 <span
-                  >决策能力评价：<el-rate v-model="des" show-text> </el-rate
+                  >证书评价：<el-rate v-model="des" show-text> </el-rate
                 ></span>
                 <span
                   >系统总评分：<el-rate :max="10" v-model="userForm.totalScore">
