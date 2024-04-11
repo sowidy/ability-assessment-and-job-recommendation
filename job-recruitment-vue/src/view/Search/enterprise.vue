@@ -17,7 +17,7 @@
         <div class="joblist">
           <div class="jobtips">
             <div class="info">
-              展示 1 – {{ pageList.total }} 中的 {{ condition.pageSize }} 条结果
+              展示 {{pageList.total == 0 ? '0':'1'}} – {{ pageList.total }} 中的 {{ showListSize }} 条结果
             </div>
 
             <div class="sort">
@@ -120,7 +120,7 @@
                 <el-slider
                   v-model="salaryValue"
                   range
-                  :max="100000"
+                  :max="100"
                   @change="searchByCondition"
                   :debounce="1500"
                 >
@@ -152,7 +152,7 @@ export default {
         { lable: "最高薪资", status: "0", value: "salary_max" },
         { lable: "地址", status: "0", value: "address" },
       ],
-      salaryValue: [0, 100000],
+      salaryValue: [2, 10],
       currentPage: 1,
       condition: {
         address: "",
@@ -173,6 +173,9 @@ export default {
   },
   computed: {
     ...mapState("user", ["identity"]),
+    showListSize(){
+      return this.pageList.total < this.condition.pageSize? this.pageList.total:this.condition.pageSize;
+    }
   },
   beforeMount() {
     //在发请求之前，把接口需要传递参数，进行整理（在给服务器发请求之前，把参数整理好，服务器就会返回查询的数据

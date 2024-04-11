@@ -25,7 +25,7 @@
                 ><i class="el-icon-s-custom"></i>
                 {{ userInfo ? userInfo.name : "" }}</span
               >
-              <span><i class="el-icon-phone"></i> {{ userInfo.phone }}</span>
+              <span><i class="iconfont icon-zhanghu"></i> {{ userInfo.phone }}</span>
               <span v-if="userInfo.school"
                 ><i class="el-icon-school"></i> {{ userInfo.school }}</span
               >
@@ -285,7 +285,7 @@ export default {
         border-color: #409eff;
       }
       .info-detail {
-        width: 40%;
+        width: 35%;
         height: 100%;
         // border: #409eff 1px solid;
         display: flex;
@@ -303,7 +303,7 @@ export default {
         }
       }
       .resume-card {
-        width: 30%;
+        width: 35%;
         // border: #409eff 1px solid;
         .resumeViewSection {
           width: 400px;

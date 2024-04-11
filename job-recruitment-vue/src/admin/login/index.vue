@@ -103,8 +103,8 @@ export default {
     };
     return {
       loginForm: {
-        phone: "11111111111",
-        password: "123456",
+        phone: "",
+        password: "",
       },
       loginRules: {
         phone: [

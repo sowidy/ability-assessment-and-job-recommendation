@@ -16,7 +16,7 @@
           <i class="el-icon-location-outline">{{ i.address || '暂无信息' }}</i>
         </div>
         <div class="treat">
-          <h5>￥{{ i.salaryMin }}-{{ i.salaryMax }}/月</h5>
+          <h5>￥{{ i.salaryMin }}-{{ i.salaryMax }}k/月</h5>
           <el-button round @click="goJobDetail(i.id)" type="primary"
             >查看</el-button
           >

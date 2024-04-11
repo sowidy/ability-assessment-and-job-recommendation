@@ -35,7 +35,7 @@ public class ResumeController {
     @ApiOperation("上传简历接口")
     @PostMapping
     public Result addResume(@RequestBody Resume resume){
-        System.out.println(resume.getOriginName());
+//        System.out.println(resume.getOriginName());
         resumeService.addResume(resume);
         try {
             FileExtract.setPDFFileToText(resume);

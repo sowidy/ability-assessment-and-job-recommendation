@@ -59,86 +59,6 @@
                   >
                 </div>
               </div>
-              <!-- <div class="tags-list">
-                <span>筛选</span>
-                <el-input
-                  v-model="condition.title"
-                  v-if="_identity == 'student'"
-                  placeholder="职位名称"
-                  @change="input_1_change"
-                />
-                <el-input
-                  v-model="studentCondition.name"
-                  v-else
-                  @change="input_1_else_change"
-                  placeholder="学生姓名"
-                />
-                <el-select
-                  v-model="salaryValue"
-                  v-if="_identity == 'student'"
-                  @change="input_2_change"
-                  placeholder="薪资待遇"
-                >
-                  <el-option
-                    v-for="item in salaryOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-
-                <el-select
-                  v-model="studentCondition.education"
-                  @change="input_2_else_change"
-                  v-else
-                  placeholder="学历要求"
-                >
-                  <el-option
-                    v-for="item in eduOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-
-                <el-input
-                  v-model="condition.name"
-                  v-if="_identity == 'student'"
-                  @change="input_3_change"
-                  placeholder="企业名称"
-                />
-
-                <el-input
-                  v-model="studentCondition.school"
-                  @change="input_3_else_change"
-                  v-else
-                  placeholder="学校"
-                />
-
-                <el-input
-                  v-model="condition.address"
-                  v-if="_identity == 'student'"
-                  @change="input_4_change"
-                  placeholder="工作地点"
-                />
-
-                <el-input
-                  v-model="studentCondition.major"
-                  @change="input_4_else_change"
-                  v-else
-                  placeholder="专业"
-                />
-
-                <el-button
-                  type="info"
-                  plain
-                  icon="el-icon-delete"
-                  @click="removeCondition"
-                  >清空筛选条件</el-button
-                >
-              </div> -->
             </div>
           </el-card>
         </div>
@@ -183,7 +103,9 @@
                 <div class="title-name">
                   <el-tag type="success">{{ i.title }}</el-tag>
                 </div>
-                <div class="salary">{{ i.salaryMin }}-{{ i.salaryMax }}/月</div>
+                <div class="salary">
+                  {{ i.salaryMin }}-{{ i.salaryMax }}k/月
+                </div>
               </div>
               <div class="tag">
                 <span>{{ i.address }}</span>
@@ -204,7 +126,7 @@
             <el-card v-if="_identity === 'student'">
               <div class="job-detail-header">
                 <div class="header-left">
-                  <h2>{{ aDatailTitle.title }}</h2>
+                  <h2>{{ aDatailTitle.title }} <span style="margin-bottom:1%"><el-tag >{{aDatailTitle.salaryMin}}-{{aDatailTitle.salaryMax}}k/月</el-tag></span></h2>
                   <i class="el-icon-location-outline">{{
                     aDatailTitle.address
                   }}</i>
@@ -216,23 +138,31 @@
                     :content="like ? '已收藏' : '点击收藏职位'"
                     placement="top"
                   >
-                    <span class="like" @click="addOrDeleteFavorite">
-                      <transition
-                        enter-active-class="animate__animated animate__bounce"
-                      >
-                        <i
-                          v-if="like == true"
-                          class="el-icon-star-on"
-                          style="color: #e6a23c"
-                        />
-                      </transition>
-                      <i v-if="like == false" class="el-icon-star-off" />
-                    </span>
+                    <el-button
+                      class="favorite"
+                      @click="addOrDeleteFavorite"
+                      type="primary"
+                      plain
+                    >
+                      <span class="like">
+                        <transition
+                          enter-active-class="animate__animated animate__bounce"
+                        >
+                          <i
+                            v-if="like == true"
+                            class="el-icon-star-on"
+                            style="color: #e6a23c"
+                          />
+                        </transition>
+                        <i v-if="like == false" class="el-icon-star-off" />
+                      </span>
+                      {{ like ? "已收藏" : "收藏" }}
+                    </el-button>
                   </el-tooltip>
 
                   <el-button
+                    class="job-detail"
                     type="primary"
-                    round
                     @click="goJobDetail(aDatailTitle.id)"
                     >查看</el-button
                   >
@@ -257,12 +187,24 @@
             <el-card v-else>
               <div class="job-detail-header">
                 <div class="header-left">
-                  <h2>{{ aDatailTitle.name }}</h2>
+                  <h2>{{ aDatailTitle.name }}</h2><br>
+                  <div style="margin-top:5%;margin-left:5%">
+                    <span style="margin-right:5%"
+                      ><el-tag type="success">{{
+                        aDatailTitle.education
+                      }}</el-tag></span
+                    >
+                    <el-tag type="success"
+                      >{{ aDatailTitle.school }}-{{
+                        aDatailTitle.major
+                      }}</el-tag
+                    >
+                  </div>
                   <!-- <i class="el-icon-location-outline">{{aDatailTitle.address}}</i> -->
                 </div>
                 <div class="header-right">
                   <el-button
-                    round
+                    style="margin-top:10%"
                     type="primary"
                     @click="goJobDetail(aDatailTitle.id)"
                     >查看</el-button
@@ -429,13 +371,13 @@ export default {
     },
     async getATitleDetail(
       // id = this._identity == "student" ? 0 : 1,
-      id =this.recommentList[0].id,
+      id = this.recommentList[0].id,
       identity = this._identity == "student" ? "Enterprise" : "Student"
     ) {
       this.aDatailTitle = [];
       await this.$API.enterprise.findHotById(id, identity).then((resp) => {
         this.aDatailTitle = resp.data.data;
-        if(this._identity == 'student') this.checkFavoriteState();
+        if (this._identity == "student") this.checkFavoriteState();
       });
     },
     handleClose(tag) {
@@ -824,16 +766,21 @@ export default {
               // border: 1px solid rgb(34, 77, 168);
               width: 30%;
               position: relative;
-              .el-button {
+              .job-detail {
                 position: absolute;
                 top: 15px;
                 right: 40px;
+                padding: 25px auto;
               }
-              .like {
-                margin-top: 1px;
-                cursor: pointer;
-                font-size: 50px;
-                display: inline-block;
+              .favorite {
+                margin-top: 15px;
+                padding: 9px;
+                .like {
+                  margin-top: 1px;
+                  cursor: pointer;
+                  font-size: 20px;
+                  display: inline-block;
+                }
               }
             }
           }

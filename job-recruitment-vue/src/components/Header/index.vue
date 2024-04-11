@@ -11,7 +11,7 @@
               v-for="(nav, index) in filteredNavs"
               :key="index"
               @click="goNav(nav.value)"
-              :class="{ active: activeIndex == nav }"
+              :class="{ active: activeIndex == nav.value }"
             >
               {{ nav.name }}
             </li>
@@ -79,8 +79,8 @@
               <div
                 style="
                   background: url(https://job-test.oss-cn-hangzhou.aliyuncs.com/2024-03-17/subscribe.png);
-                  background-position:right;
-                  background-repeat:no-repeat;
+                  background-position: right;
+                  background-repeat: no-repeat;
                   background-size: 60% 100%;
                 "
               >
@@ -147,12 +147,12 @@ export default {
         { value: "recommend", name: "推荐" },
         { value: "search", name: "搜索" },
 
-        { value: "", name: "反馈" },
+        { value: "1", name: "反馈" },
         { value: "help", name: "帮助" },
       ],
       input: "",
       scrollY: 0,
-      activeIndex: "home",
+      activeIndex: "",
       isFix: "",
       dialogVisibleh: false,
       edu: "",
@@ -171,7 +171,9 @@ export default {
         remarkText: "",
       },
       rules: {
-        remarkText: [{ required: true, message: "请输入反馈信息", trigger: "blur" }],
+        remarkText: [
+          { required: true, message: "请输入反馈信息", trigger: "blur" },
+        ],
       },
     };
   },
@@ -182,7 +184,7 @@ export default {
         // 如果用户身份为企业，则过滤掉"能力评价与建议"导航项
         return this.navs.filter(
           (nav) =>
-            nav.value !== "evaluation-recommendations" && nav.value !== ""
+            nav.value !== "evaluation-recommendations" && nav.value !== "1"
         );
       } else {
         return this.navs;
@@ -199,7 +201,7 @@ export default {
     },
     goNav(nav) {
       // console.log(nav);
-      if (nav === "") {
+      if (nav === "1") {
         if (this.$store.state.user.userInfo.resumeId) {
           this.dialogVisibleh = true;
           return;
@@ -212,7 +214,11 @@ export default {
         }
         // this.$bus.$emit("showDialog");
       }
+      
       this.$router.push({ name: nav });
+      this.activeIndex = nav;
+      // console.log(this.$route);
+      console.log(this.activeIndex);
     },
     handleScroll() {
       this.scrollY = document.documentElement.scrollTop;
@@ -234,7 +240,7 @@ export default {
     goResume() {
       this.$router.push({ name: "Resume" });
     },
-    goFavorite(){
+    goFavorite() {
       this.$router.push({ name: "Favorite" });
     },
     goSetting() {
@@ -461,7 +467,7 @@ export default {
   height: 60px;
   animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
 }
-// .active{
+// .active {
 //   color: #358ccf;
 // }
 </style>

@@ -31,7 +31,7 @@
         </el-descriptions-item>
         <el-descriptions-item>
           <template slot="label">
-            <i class="el-icon-user"></i>
+            <i class="iconfont icon-zhanghu"></i>
             账户名
           </template>
           {{ userInfo.phone }}
@@ -97,7 +97,7 @@
       <el-descriptions class="margin-top" :column="1" border>
         <el-descriptions-item>
           <template slot="label">
-            <i class="el-icon-office-building"></i>
+            <i class="iconfont icon-zhuanyezhishijineng"></i>
             技能
           </template>
           {{ userInfo.skills || "暂无" }}
@@ -105,131 +105,13 @@
 
         <el-descriptions-item>
           <template slot="label">
-            <i class="el-icon-basketball"></i>
+            <i class="iconfont icon-resume-1-copy"></i>
             经历
           </template>
           {{ userInfo.experience || "暂无" }}
         </el-descriptions-item>
       </el-descriptions>
     </div>
-    <!-- <div class="resumeEditor">
-      <div class="resume-editor" ref="editorFrom">
-        <h1>个人信息</h1>
-        <el-button round type="primary" @click="changeMod">编辑</el-button>
-      </div>
-      <div class="detail">
-        基础信息
-        <div class="resumeSection">
-          <div>
-            <h2 class="resumeSection__title">基础信息</h2>
-          </div>
-          <div class="resumeSection__form">
-            <el-form ref="basicForm" :rules="rules" :model="userForm">
-              <el-form-item label="姓名" prop="name">
-                <h2 v-if="!modify">{{ userInfo.name }}</h2>
-                <el-input v-if="modify" v-model="userForm.name"></el-input>
-              </el-form-item>
-              <el-form-item label="性别" prop="gender">
-                <h2 v-if="!modify">{{ userInfo.gender }}</h2>
-                <el-select v-if="modify" v-model="userForm.gender">
-                  <el-option label="男" value="男"></el-option>
-                  <el-option label="女" value="女"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="邮箱" prop="email">
-                <h2 v-if="!modify">{{ userInfo.email }}</h2>
-                <el-input v-if="modify" v-model="userForm.email"></el-input>
-              </el-form-item>
-              <el-form-item label="年龄" prop="bornYear">
-                <h2 v-if="!modify">
-                  {{ age }}
-                </h2>
-                <el-date-picker
-                  v-if="modify"
-                  v-model="userForm.bornYear"
-                  type="date"
-                  placeholder="选择日期"
-                >
-                </el-date-picker>
-              </el-form-item>
-            </el-form>
-          </div>
-        </div>
-        教育经历
-        <div class="resumeSection">
-          <div>
-            <h2 class="resumeSection__title">教育经历</h2>
-          </div>
-          <div class="resumeSection__form">
-            <el-form ref="basicForm" :model="userForm">
-              <el-form-item label="学历" prop="">
-                <h2 v-if="!modify">{{ userInfo.education }}</h2>
-                <el-select v-if="modify" v-model="userForm.education">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="学校" prop="">
-                <h2 v-if="!modify">{{ userInfo.school }}</h2>
-                <el-input v-if="modify" v-model="userForm.school"></el-input>
-              </el-form-item>
-              <el-form-item label="专业" prop="">
-                <h2 v-if="!modify">{{ userInfo.major }}</h2>
-                <el-input v-if="modify" v-model="userForm.major"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
-        </div>
-        技能展示
-        <div class="resumeSection">
-          <div>
-            <h2 class="resumeSection__title">技能展示</h2>
-          </div>
-          <div class="resumeSection__form">
-            <el-form ref="basicForm" :model="userForm">
-              <el-form-item label="经历" prop="">
-                <h2 v-if="!modify">{{ userInfo.experience || "暂无" }}</h2>
-                <el-input
-                  v-if="modify"
-                  v-model="userForm.experience"
-                  type="textarea"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="技能" prop="">
-                <h2 v-if="!modify">{{ userInfo.skills || "暂无" }}</h2>
-                <el-input
-                  v-if="modify"
-                  v-model="userForm.skills"
-                  type="textarea"
-                ></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- <div class="foot" v-if="false">
-      <div
-        ref="footerAction"
-        :class="{ 'resumeEditor-footerAction-fix': footerActionFixed }"
-        class="resumeEditor-footerAction"
-      >
-        <el-button round @click="modify = false">取消</el-button>
-        <el-button
-          round
-          size="medium"
-          @click="submit"
-          type="primary"
-          :disabled="!modify"
-          >保存</el-button
-        >
-      </div>
-    </div> -->
     <el-dialog
       title="修改个人信息"
       :visible.sync="centerDialogVisible"

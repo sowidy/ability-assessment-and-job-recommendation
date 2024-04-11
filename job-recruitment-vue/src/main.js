@@ -17,6 +17,7 @@ import Footer from '@/components/Footer'
 import { formatDate } from "@/utils/utilities";
 import PopupProgress from "@/components/popup-progress";
 import * as echarts from 'echarts'
+import '@/assets/css/iconfont.css'
 Vue.prototype.$echarts = echarts;
 // import AOS from "aos";
 // import 'aos/dist/aos.css'

@@ -14,18 +14,26 @@
                   :content="like ? '已收藏' : '点击收藏职位'"
                   placement="top"
                 >
-                  <span class="like" @click="addOrDeleteFavorite">
-                    <transition
-                      enter-active-class="animate__animated animate__bounce"
-                    >
-                      <i
-                        v-if="like == true"
-                        class="el-icon-star-on"
-                        style="color: #e6a23c"
-                      />
-                    </transition>
-                    <i v-if="like == false" class="el-icon-star-off" />
-                  </span>
+                  <el-button
+                    class="favorite"
+                    @click="addOrDeleteFavorite"
+                    type="primary"
+                    plain
+                  >
+                    <span class="like">
+                      <transition
+                        enter-active-class="animate__animated animate__fadeIn"
+                      >
+                        <i
+                          v-if="like == true"
+                          class="el-icon-star-on"
+                          style="color: #e6a23c"
+                        />
+                      </transition>
+                      <i v-if="like == false" class="el-icon-star-off" />
+                    </span>
+                    {{ like ? "已收藏" : "收藏" }}
+                  </el-button>
                 </el-tooltip>
               </div>
               <div class="poster_details">
@@ -69,7 +77,7 @@
                     <span
                       >{{ enterprise.salaryMin }}——{{
                         enterprise.salaryMax
-                      }}/月</span
+                      }}k/月</span
                     >
                   </div>
                 </el-card>
@@ -316,12 +324,17 @@ div {
 
             // float: right;
           }
-          .like {
-            margin-top: 1px;
-            cursor: pointer;
-            font-size: 50px;
-            display: inline-block;
-            margin-left: 30%;
+          .favorite {
+            margin-top: 5px;
+            padding: 10px;
+            width: 100%;
+            .like {
+              margin-top: 1px;
+              cursor: pointer;
+              font-size: 20px;
+              display: inline-block;
+              // margin-left: 30%;
+            }
           }
         }
         .poster_details {

@@ -14,16 +14,20 @@
       <div class="charts" ref="charts"></div>
       <div class="sugges">
         <div class="title">
-          <h2>能力评价细则</h2>
+          <h2>能力评价详情</h2>
           <el-button type="primary" round @click="sendShow">反馈</el-button>
         </div>
         <div class="exp">
-          <div class="edu"><span>学历评价：</span></div>
-          <div class="ski"><span>专业技能评价：</span></div>
+          <div class="edu">
+            <span
+              >能力评价：该学生表现出色，展现了扎实的学术能力，在专业知识的掌握和研究方面表现突出。他/她具备优秀的沟通能力，能够清晰表达自己的想法，并倾听他人的观点。在团队合作方面，该学生表现积极，能够有效地与他人合作，达成共同目标。此外，他/她展现出良好的组织和时间管理能力，在面对多项任务和压力时依然能够保持高效。该学生对未来职业有明确规划，并已经采取行动来为之做好准备，包括实习经历和职业技能的培养。</span
+            >
+          </div>
+          <!-- <div class="ski"><span>专业技能评价：</span></div>
           <div class="exp"><span>工作经验评价：</span></div>
           <div class="per"><span>个人特质评价：</span></div>
           <div class="com"><span>交往特质评价：</span></div>
-          <div class="com"><span>决策能力评价：</span></div>
+          <div class="com"><span>决策能力评价：</span></div> -->
         </div>
       </div>
     </div>

@@ -97,8 +97,8 @@ export default {
     return {
       status: "",
       userForm: {
-        phone: "17574892870",
-        password: "123456",
+        phone: "",
+        password: "",
       },
       rules: {
         phone: [

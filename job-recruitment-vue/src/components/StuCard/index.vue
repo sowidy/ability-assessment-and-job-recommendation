@@ -7,14 +7,20 @@
         </div>
         <div class="detail">
           <h3>{{ i.name }}</h3>
-          <i class="el-icon-location-outline"
-            >{{ i.education }}-{{ i.school }}</i
+          <i class="iconfont icon-zhuanyezhishijineng edu"
+            >{{ i.school }}-{{ i.education }}-{{ i.major }}</i
           >
-          <h4>{{ i.major }}</h4>
+          <div>
+            <i
+              class="iconfont icon-bianjibanbenmiaoshu_bianjibanbenmiaoshu ski"
+              >{{ i.skills }}</i
+            >
+          </div>
         </div>
         <div class="opration">
-
-          <el-button round @click="goJobDetail(i.id)" type="primary"> 查看 </el-button>
+          <el-button round @click="goJobDetail(i.id)" type="primary">
+            查看
+          </el-button>
         </div>
       </div>
     </el-card>
@@ -38,7 +44,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-color: #ededed transparent;
-  border-left:none ;
+  border-left: none;
   border-right: none;
   box-shadow: none;
   // margin: 1% 0;
@@ -62,12 +68,17 @@ export default {
       h3 {
         position: absolute;
         left: 20px;
-        // top: 20px;
       }
-      i {
+      .edu {
         position: absolute;
+        left: 100px;
+        top: 5px;
+      }
+      .ski {
+        position: absolute;
+
+        top: 50px;
         left: 20px;
-        top: 35px;
       }
       h4 {
         position: absolute;
@@ -85,7 +96,6 @@ export default {
         left: 30px;
         top: 20px;
       }
-
     }
   }
 }

@@ -169,7 +169,7 @@ export default {
                 message: "修改成功",
               });
 
-              // this.$router.push({ name: "Evaluate" });
+              this.$router.push({ name: "evaluation-recommendations" });
             }
           })
           .catch((err) => {

@@ -18,7 +18,7 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
-          <i class="el-icon-user"></i>
+          <i class="iconfont icon-zhanghu"></i>
           账户名
         </template>
         {{ userInfo.phone }}
@@ -39,7 +39,7 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
-          <i class="el-icon-info"></i>
+          <i class="iconfont icon-bianjibanbenmiaoshu_bianjibanbenmiaoshu"></i>
           公司描述
         </template>
         {{ userInfo.enterpriseDescription || "暂无信息" }}

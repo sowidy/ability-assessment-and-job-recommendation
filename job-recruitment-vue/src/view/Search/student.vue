@@ -13,22 +13,6 @@
                   展示 1 – {{condition.pageSize  }} 条中的
                   {{ pageList.total }} 结果
                 </div>
-                <!-- <div class="sort">
-                  Sort by:
-                  <el-select
-                    v-model="condition.sortBy"
-                    placeholder="请选择"
-                    @change="searchByCondition"
-                  >
-                    <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    >
-                    </el-option>
-                  </el-select>
-                </div> -->
               </div>
               <el-divider></el-divider>
 
@@ -51,7 +35,6 @@
               <el-divider></el-divider>
               <el-card>
                 <div>
-                  <!-- <el-card> -->
                   <div class="block">
                     <span>姓名搜索</span>
                     <div class="search">
@@ -61,20 +44,9 @@
                         @keydown.enter.native="searchByCondition"
                         class="pass_input"
                       >
-                        <!-- <template slot="prefix">
-                        <i class="el-icon-search"></i>
-                      </template> -->
-                        <!-- <template slot="suffix">
-                        <el-button
-                          class="pass_button"
-                          icon="el-icon-search"
-                        ></el-button> </template
-                    > -->
                       </el-input>
                     </div>
                   </div>
-                  <!-- </el-card> -->
-                  <!-- <el-card> -->
                   <div class="block">
                     <span>学校</span>
                     <div class="search">
@@ -84,20 +56,9 @@
                         class="pass_input"
                         @keydown.enter.native="searchByCondition"
                       >
-                        <!-- <template slot="prefix">
-                        <i class="el-icon-search"></i>
-                      </template>
-                      <template slot="suffix">
-                        <el-button
-                          class="pass_button"
-                          icon="el-icon-search"
-                        ></el-button> </template
-                    > -->
                       </el-input>
                     </div>
                   </div>
-                  <!-- </el-card> -->
-                  <!-- <el-card> -->
                   <div class="block">
                     <span>学历</span>
                     <div class="search">
@@ -107,20 +68,9 @@
                         @keydown.enter.native="searchByCondition"
                         class="pass_input"
                       >
-                        <!-- <template slot="prefix">
-                        <i class="el-icon-search"></i>
-                      </template>
-                      <template slot="suffix">
-                        <el-button
-                          class="pass_button"
-                          icon="el-icon-search"
-                        ></el-button> </template
-                    > -->
                       </el-input>
                     </div>
                   </div>
-                  <!-- </el-card> -->
-                  <!-- <el-card> -->
                   <div class="block">
                     <span>专业</span>
                     <div class="search">
@@ -130,19 +80,9 @@
                         placeholder="请输入内容"
                         class="pass_input"
                       >
-                        <!-- <template slot="prefix">
-                        <i class="el-icon-search"></i>
-                      </template>
-                      <template slot="suffix">
-                        <el-button
-                          class="pass_button"
-                          icon="el-icon-search"
-                        ></el-button> </template
-                    > -->
                       </el-input>
                     </div>
                   </div>
-                  <!-- </el-card> -->
                 </div>
               </el-card>
             </div>

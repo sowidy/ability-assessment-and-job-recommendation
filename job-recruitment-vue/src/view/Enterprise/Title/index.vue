@@ -11,10 +11,10 @@
       </template>
       <el-descriptions-item>
         <template slot="label">
-          <i class="el-icon-user"></i>
+          <i class="iconfont icon-zhiwei"></i>
           职位名称
         </template>
-        <el-tag type="success">{{ userInfo.title ||"暂无" }}</el-tag>
+        <el-tag type="success">{{ userInfo.title || "暂无" }}</el-tag>
       </el-descriptions-item>
 
       <el-descriptions-item>
@@ -22,43 +22,43 @@
           <i class="el-icon-location-outline"></i>
           地点
         </template>
-        {{ userInfo.address||"暂无" }}
+        {{ userInfo.address || "暂无" }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
-          <i class="el-icon-location-outline"></i>
+          <i class="iconfont icon-xinzifanwei"></i>
           薪资
         </template>
         {{ userInfo.salaryMin }}-{{ userInfo.salaryMax }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
-          <i class="el-icon-office-building"></i>
+          <i class="iconfont icon-yijibumenfuzeren"></i>
           负责人
         </template>
-        {{ userInfo.hiringManager||"暂无" }}
-      </el-descriptions-item>
-      <el-descriptions-item>
-        <template slot="label">
-          <i class="el-icon-office-building"></i>
-          联系电话
-        </template>
-        {{ userInfo.hirePhone||"暂无" }}
+        {{ userInfo.hiringManager || "暂无" }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-mobile-phone"></i>
+          联系电话
+        </template>
+        {{ userInfo.hirePhone || "暂无" }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          <i class="iconfont icon-bianjibanbenmiaoshu_bianjibanbenmiaoshu"></i>
           描述
         </template>
-        {{ userInfo.titleDescription||"暂无" }}
+        {{ userInfo.titleDescription || "暂无" }}
       </el-descriptions-item>
 
       <el-descriptions-item>
         <template slot="label">
-          <i class="el-icon-tickets"></i>
+          <i class="iconfont icon-yaoqiu "></i>
           要求
         </template>
-        {{ userInfo.titleRequire||"暂无" }}
+        {{ userInfo.titleRequire || "暂无" }}
       </el-descriptions-item>
     </el-descriptions>
     <el-dialog
@@ -69,7 +69,7 @@
       center
     >
       <span>
-        <el-form  ref="userForm" :model="userFormTmp" :rules="rules">
+        <el-form ref="userForm" :model="userFormTmp" :rules="rules">
           <el-row>
             <el-col :span="10"
               ><el-form-item label="职位" prop="title">
@@ -251,7 +251,7 @@ export default {
     this.userForm = { ...this.userInfo };
   },
   methods: {
-        handleCancel(){
+    handleCancel() {
       this.$refs.userForm.resetFields();
       this.centerDialogVisible = false;
     },
@@ -290,6 +290,9 @@ export default {
 <style lang="less" scoped>
 /deep/ .el-descriptions .is-bordered .el-descriptions-item__cell {
   height: 80px;
+}
+/deep/ .el-descriptions-item__label {
+  width: 20%;
 }
 .el-dialog {
   .el-col {
