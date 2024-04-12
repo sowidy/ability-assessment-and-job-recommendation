@@ -44,6 +44,7 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
             FileExtract.setPDFFileToText(resume);
             Map<String,Object> map = ThreadLocalUtil.get();
             Integer id = (Integer) map.get("id");
+            System.out.println(String.valueOf(id));
             CallPythonScript.call(String.valueOf(id));
             return true;
         }catch (Exception e){

@@ -19,12 +19,7 @@ public class CallPythonScript {
         try {
             //当前工作目录
             String currentWorkingDirectory = System.getProperty("user.dir");
-            // 使用 Paths.get() 方法将当前工作目录转换为 Path 对象
-            Path currentPath = Paths.get(currentWorkingDirectory);
-            // 获取上一级目录
-            Path parentPath = currentPath.getParent();
-            // 创建进程构建器
-            ProcessBuilder pb = new ProcessBuilder("python", parentPath.toString() + "main.py",argument);
+            ProcessBuilder pb = new ProcessBuilder("python", currentWorkingDirectory + "\\python\\main.py",argument);
             // 启动进程
             Process process = pb.start();
             // 读取Python脚本的输出
@@ -37,6 +32,7 @@ public class CallPythonScript {
             int exitCode = process.waitFor();
             System.out.println("Python脚本执行完毕，退出码：" + exitCode);
         } catch (IOException | InterruptedException e) {
+            System.out.println("Python脚本执行出错");
             e.printStackTrace();
         }
     }
