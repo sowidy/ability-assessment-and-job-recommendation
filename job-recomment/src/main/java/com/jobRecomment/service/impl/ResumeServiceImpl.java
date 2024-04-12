@@ -1,10 +1,13 @@
 package com.jobRecomment.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jobRecomment.domain.bean.Result;
 import com.jobRecomment.domain.bean.Resume;
 import com.jobRecomment.mapper.ResumeMapper;
 import com.jobRecomment.service.IResumeService;
 import com.jobRecomment.service.IStudentService;
+import com.jobRecomment.utils.CallPythonScript;
+import com.jobRecomment.utils.FileExtract;
 import com.jobRecomment.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,12 +36,19 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
 
     @Override
     @Transactional
-    public void addResume(Resume resume) {
+    public boolean addResume(Resume resume) {
         // 调用 Mapper 方法插入数据并返回 ID
         Long resumeId = baseMapper.insertAndGetId(resume);
-        System.out.println(resumeId+"@@@@@");
-        System.out.println(resume.getId()+"#####");
         studentService.addOrUpdateResume(resume.getId());
+        try {
+            FileExtract.setPDFFileToText(resume);
+            Map<String,Object> map = ThreadLocalUtil.get();
+            Integer id = (Integer) map.get("id");
+            CallPythonScript.call(String.valueOf(id));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

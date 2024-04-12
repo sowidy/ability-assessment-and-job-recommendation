@@ -287,3 +287,10 @@ export function getFavoriteId() {
 export function deleteAllFavoriteTitles() {
   return request.delete(`/favorite/deleteAllTitle`);
 }
+/** 
+ * 获取学生能力评价分数和建议
+ * @returns
+ */
+export function getAbilityScoreByStudentId() {
+  return request.get(`/ability-score`);
+}

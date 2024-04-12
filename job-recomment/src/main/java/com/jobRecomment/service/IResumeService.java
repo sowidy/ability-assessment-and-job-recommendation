@@ -15,7 +15,7 @@ public interface IResumeService  extends IService<Resume> {
 
     Resume getResume();
 
-    void addResume(Resume resume);
+    boolean addResume(Resume resume);
 
     void deleteResume();
 }

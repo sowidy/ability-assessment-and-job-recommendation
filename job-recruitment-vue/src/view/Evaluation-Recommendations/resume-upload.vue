@@ -141,12 +141,10 @@ export default {
   },
   methods: {
     submit() {
-      // console.log(this.resumeName);
       if (this.resumeName) {
         this.$API.user
           .addResume(this.resumeName)
           .then(async (resp) => {
-            // console.log(resp);
             if (resp.data.code == 0) {
               await this.$store.dispatch("user/getUserInfo", {
                 identity: this.identity,
@@ -155,8 +153,7 @@ export default {
                 type: "success",
                 message: "获取成功",
               });
-              
-              // this.$router.push({ name: "Evaluate" });
+              this.$bus.$emit('getScore');
             }
           })
           .catch((err) => {

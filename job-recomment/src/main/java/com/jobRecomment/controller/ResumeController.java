@@ -36,13 +36,8 @@ public class ResumeController {
     @PostMapping
     public Result addResume(@RequestBody Resume resume){
 //        System.out.println(resume.getOriginName());
-        resumeService.addResume(resume);
-        try {
-            FileExtract.setPDFFileToText(resume);
-            return Result.success("获取成功");
-        }catch (Exception e){
-            return Result.error("获取失败");
-        }
+        boolean added = resumeService.addResume(resume);
+        return added?Result.success("获取成功"):Result.error("获取失败");
     }
 
     @ApiOperation("删除简历接口")

@@ -166,6 +166,7 @@ export default {
             })
             .catch(() => {
               this.loading = false;
+              this.$notify.error("登录失败");
             });
         } else {
           console.log("error submit!!");

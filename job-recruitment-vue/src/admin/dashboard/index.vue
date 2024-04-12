@@ -10,10 +10,17 @@
                   <el-statistic
                     group-separator=","
                     :precision="0"
-                    :value="totalCount"
+                    
                     title="总用户人数"
                   />
                 </div>
+                <span>
+                  <animate-number
+                    from="1"
+                    :to="totalCount"
+                    :key="totalCount"
+                  ></animate-number>
+                </span>
               </el-card>
             </div>
           </el-col>
@@ -23,7 +30,17 @@
                 <div class="statistic">
                   <el-statistic title="企业 vs 学生">
                     <template slot="formatter">
-                      {{ enterpriseCount }}/{{ studentCount }}
+                      <animate-number
+                        from="1"
+                        :to="enterpriseCount"
+                        :key="enterpriseCount"
+                      ></animate-number>
+                      /
+                      <animate-number
+                        from="1"
+                        :to="studentCount"
+                        :key="studentCount"
+                      ></animate-number>
                     </template>
                   </el-statistic>
                 </div>
@@ -83,8 +100,8 @@ export default {
     return {
       like: true,
 
-      studentCount: "",
-      enterpriseCount: "",
+      studentCount: "0",
+      enterpriseCount: "0",
       remarkCount: "",
       chartNameData: [],
       lineNameData: [],
@@ -103,12 +120,11 @@ export default {
     this.getRemarkCount();
     await this.getTotalCount();
     this.calculateChartData();
-
   },
   computed: {
     ...mapState("admin", ["name", "avatar"]),
     totalCount() {
-      return this.studentCount + this.enterpriseCount;
+      return this.studentCount + this.enterpriseCount || 0;
     },
   },
   methods: {
@@ -263,7 +279,7 @@ export default {
           {
             data: [this.studentCount, this.enterpriseCount],
             type: "bar",
-            barWidth: '50%',
+            barWidth: "50%",
             itemStyle: {
               normal: {
                 color: function (params) {

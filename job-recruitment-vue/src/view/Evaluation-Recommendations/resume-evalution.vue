@@ -12,6 +12,26 @@
     </div>
     <div v-else class="not-empty">
       <div class="charts" ref="charts"></div>
+      <div style="display:flex;margin-left:20%;margin-bottom:5%">
+        您的总评分为：
+        <el-rate
+        
+          v-model="entryRod"
+          disabled
+          text-color="#ff9900"
+          :max=10
+          :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+        >
+        </el-rate>
+        <animate-number
+          from="1"
+          style="color:#ff9900"
+          :to="entryRod"
+          :key="entryRod"
+        ></animate-number>
+      </div>
+      <!-- <el-divider></el-divider> -->
+
       <div class="sugges">
         <div class="title">
           <h2>能力评价详情</h2>
@@ -19,9 +39,7 @@
         </div>
         <div class="exp">
           <div class="edu">
-            <span
-              >能力评价：该学生表现出色，展现了扎实的学术能力，在专业知识的掌握和研究方面表现突出。他/她具备优秀的沟通能力，能够清晰表达自己的想法，并倾听他人的观点。在团队合作方面，该学生表现积极，能够有效地与他人合作，达成共同目标。此外，他/她展现出良好的组织和时间管理能力，在面对多项任务和压力时依然能够保持高效。该学生对未来职业有明确规划，并已经采取行动来为之做好准备，包括实习经历和职业技能的培养。</span
-            >
+            <span>{{ scoreForm.suggest }}</span>
           </div>
           <!-- <div class="ski"><span>专业技能评价：</span></div>
           <div class="exp"><span>工作经验评价：</span></div>
@@ -42,12 +60,47 @@ export default {
   data() {
     return {
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
+      entryRod: 5,
+      rodNumber: null,
+      scoreForm: {
+        // educationScore:'',
+        // certificateScore:'',
+        // skillsScore:'',
+        // experienceScore:'',
+        // personalScore:'',
+        // communicationScore:'',
+        // totalScore:'',
+        // suggest:''
+      },
     };
+  },
+  created() {
+    //数字定时器动态循环设置
+    // this.rodNumber = setInterval(() => {
+    //   this.entryRod++;
+    // }, 5000); // 每隔 1 秒更新数字的值
+  },
+  beforeDestroy() {
+    clearInterval(this.rodNumber); // 在组件销毁前清除定时器
   },
   computed: {
     ...mapState("user", ["userInfo", "identity"]),
   },
   methods: {
+    async getScore() {
+      await this.$API.user
+        .getAbilityScoreByStudentId()
+        .then((resp) => {
+          if (resp.data.code == 0) {
+            this.scoreForm = resp.data.data;
+            this.entryRod = Number(this.scoreForm.totalScore)
+            this.drawChart();
+          } else this.$notify.error("获取失败,请重新上传");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     drawChart() {
       let mychart = this.$echarts.init(this.$refs.charts);
       mychart.setOption({
@@ -165,33 +218,29 @@ export default {
             },
             data: [
               {
-                value: [5, 7, 2, 6, 9, 4],
+                value: [
+                  this.scoreForm.educationScore,
+                  this.scoreForm.skillsScore,
+                  this.scoreForm.experienceScore,
+                  this.scoreForm.personalScore,
+                  this.scoreForm.communicationScore,
+                  this.scoreForm.certificateScore,
+                ],
                 name: "能力评价",
               },
             ],
           },
         ],
       });
-      //绑定事件
-      // mychart.on("mouseover", (params) => {
-      //   //获取鼠标移上去那条数据
-      //   const { name, value } = params.data;
-      //   //重新设置标题
-      //   mychart.setOption({
-      //     title: {
-      //       text: name,
-      //       subtext: "value",
-      //     },
-      //   });
-      // });
     },
     sendShow() {
       this.$bus.$emit("showDialog");
     },
   },
-  mounted() {
-    console.log(this.userInfo);
-    this.drawChart();
+  async mounted() {
+    await this.getScore();
+    console.log(this.scoreForm, "score");
+    this.$bus.$on("getScore", this.getScore);
   },
 };
 </script>
