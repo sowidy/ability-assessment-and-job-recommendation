@@ -161,7 +161,7 @@ export default {
                 this.$router.push("/login");
               } else {
                 this.$refs[formName].resetFields();
-                this.$notify.error(resp.data.message);
+                this.$notify.error("注册失败，请联系管理员");
               }
             })
             .catch((err) => {

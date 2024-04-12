@@ -242,7 +242,7 @@ export default {
   data() {
     return {
       like: false,
-      selectID: 0,
+      selectID: 1,
       recommentList: [],
       aDatailTitle: "",
       dynamicTags: [],
