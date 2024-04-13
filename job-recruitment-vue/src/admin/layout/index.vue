@@ -8,7 +8,7 @@
             display: inline-block;
             padding: 0px;
           "
-          >大学生能力评估与职位推荐系统</span
+          >大学生能力评价与职位推荐系统</span
         >
         <div class="info">
           <div class="admin-name-block">
@@ -171,7 +171,7 @@ export default {
   color: #333;
   text-align: center;
   /* line-height: 160px; */
-  height: 682px;
+  height: 100vh;
   /* padding: 10px; */
 }
 

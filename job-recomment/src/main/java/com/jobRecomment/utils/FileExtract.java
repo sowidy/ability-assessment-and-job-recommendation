@@ -35,7 +35,7 @@ public class FileExtract {
             bufferedWriter.write(context);
             bufferedWriter.flush();
             bufferedWriter.close();
-            System.out.println("文本信息已成功写入到文件：" + filePath);
+//            System.out.println("文本信息已成功写入到文件：" + filePath);
         } catch (IOException e) {
             System.out.println("写入文件时出错：" + e.getMessage());
             e.printStackTrace();

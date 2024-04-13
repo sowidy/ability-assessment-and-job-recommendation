@@ -7,6 +7,11 @@
         </div>
         <div class="detail">
           <h3>{{ i.name }}</h3>
+          <el-tag type="success">{{
+            i.bornYear
+              ? new Date().getFullYear() - i.bornYear.slice(0, 4)
+              : ""
+          }}</el-tag>
           <i class="iconfont icon-zhuanyezhishijineng edu"
             >{{ i.school }}-{{ i.education }}-{{ i.major }}</i
           >
@@ -35,6 +40,7 @@ export default {
     goJobDetail(id) {
       this.$router.push({ path: "/student", query: { id } });
     },
+
   },
 };
 </script>
@@ -71,8 +77,13 @@ export default {
       }
       .edu {
         position: absolute;
-        left: 100px;
+        left: 140px;
         top: 5px;
+      }
+      .el-tag{
+        position: absolute;
+        left: 80px;
+        top: 0px;
       }
       .ski {
         position: absolute;

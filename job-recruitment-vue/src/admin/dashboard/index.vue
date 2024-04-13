@@ -412,6 +412,7 @@ export default {
 
 <style lang="less" scoped>
 .dashboard-container {
+  height: 100vh;
   .el-card {
     padding: 5px;
     .persen-info {

@@ -1,7 +1,6 @@
 package com.jobRecomment.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jobRecomment.domain.bean.Result;
 import com.jobRecomment.domain.bean.Resume;
 import com.jobRecomment.mapper.ResumeMapper;
 import com.jobRecomment.service.IResumeService;
@@ -44,10 +43,10 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
             FileExtract.setPDFFileToText(resume);
             Map<String,Object> map = ThreadLocalUtil.get();
             Integer id = (Integer) map.get("id");
-            System.out.println(String.valueOf(id));
             CallPythonScript.call(String.valueOf(id));
             return true;
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }
@@ -58,7 +57,6 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
         Map<String,Object> map = ThreadLocalUtil.get();
         Integer id = (Integer) map.get("id");
         Integer resumeId = studentService.getResumeId();
-        System.out.println(resumeId+"######");
         studentService.deleteResumeById();
         removeById(resumeId);
     }

@@ -7,7 +7,7 @@
     </div>
     <div style="position: relative; text-align: left">
       <pan-thumb :image="avatar" class="panThumb" />
-      <mallki class-name="mallki-text" text="能力评估与职位推荐系统" />
+      <mallki class-name="mallki-text" text="大学生能力评价与职位推荐系统" />
       <div style="padding-top: 35px" class="progress-item">
         <!-- <span>Vue</span> -->
         <!-- <el-progress :percentage="70" /> -->

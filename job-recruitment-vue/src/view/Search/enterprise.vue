@@ -22,19 +22,6 @@
 
             <div class="sort">
               <span>排序：</span>
-
-              <!-- <el-select
-                v-model="condition.sortBy"
-                placeholder="请选择"
-                @change="searchByCondition"
-              >
-                <el-option
-                  v-for="item in 1"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option> -->
               <div
                 class="right"
                 @click="change(item, index)"

@@ -37,13 +37,13 @@
         </template>
         <el-tag type="success">{{ userInfo.type || "暂无信息" }}</el-tag>
       </el-descriptions-item>
-      <el-descriptions-item>
+      <!-- <el-descriptions-item>
         <template slot="label">
           <i class="iconfont icon-bianjibanbenmiaoshu_bianjibanbenmiaoshu"></i>
           公司描述
         </template>
         {{ userInfo.enterpriseDescription || "暂无信息" }}
-      </el-descriptions-item>
+      </el-descriptions-item> -->
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-user-solid"></i>
@@ -58,20 +58,6 @@
         </template>
         {{ userInfo.phone }}
       </el-descriptions-item>
-      <!-- <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-location-outline"></i>
-            地区
-          </template>
-          {{ area }}
-        </el-descriptions-item> -->
-      <!-- <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-magic-stick"></i>
-            个性签名
-          </template>
-          {{ design }}
-        </el-descriptions-item> -->
       <el-descriptions-item>
         <template slot="label">
           <i class="el-icon-date"></i>
@@ -79,7 +65,17 @@
         </template>
         {{ userInfo.createTime | formatDate }}
       </el-descriptions-item> </el-descriptions
-    ><el-dialog
+    >
+    <el-descriptions class="margin-top" title="" :column="1" :size="size" border>
+      <el-descriptions-item>
+        <template slot="label">
+          <i class="iconfont icon-bianjibanbenmiaoshu_bianjibanbenmiaoshu"></i>
+          公司描述
+        </template>
+        {{ userInfo.enterpriseDescription || "暂无信息" }}
+      </el-descriptions-item>
+    </el-descriptions>
+    <el-dialog
       title="编辑企业基础信息"
       :visible.sync="centerDialogVisible"
       :modal-append-to-body="false"

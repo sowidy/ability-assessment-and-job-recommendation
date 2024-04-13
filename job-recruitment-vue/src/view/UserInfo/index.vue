@@ -91,8 +91,13 @@
                   <span slot="title"> 收藏列表 </span>
                 </el-menu-item>
               </router-link>
-              <router-link class="link" to="/userinfo/setting">
+              <router-link  class="link" to="/search">
                 <el-menu-item index="6">
+                  <span slot="title"> 搜索 </span>
+                </el-menu-item>
+              </router-link>
+              <router-link class="link" to="/userinfo/setting">
+                <el-menu-item index="7">
                   <span slot="title"> 设置 </span>
                 </el-menu-item></router-link
               >
@@ -189,8 +194,10 @@ export default {
           return "2";
         case "/userinfo/favorite":
           return "5";
-        case "/userinfo/setting":
+          case "/search":
           return "6";
+        case "/userinfo/setting":
+          return "7";
         default:
           return "1";
       }

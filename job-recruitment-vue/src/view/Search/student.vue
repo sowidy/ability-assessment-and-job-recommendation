@@ -10,8 +10,29 @@
             <div class="left-list">
               <div class="jobtips">
                 <div class="info">
-                  展示 1 – {{condition.pageSize  }} 条中的
-                  {{ pageList.total }} 结果
+                  展示 {{ pageList.total == 0 ? "0" : "1" }} –
+                  {{ pageList.total }} 条中的 {{ showListSize }} 结果
+                </div>
+                <div class="sort">
+                  <span>排序：</span>
+                  <div
+                    class="right"
+                    @click="change(item, index)"
+                    v-for="(item, index) in options"
+                    :key="index"
+                  >
+                    {{ item.lable }}
+                    <div class="box-icon">
+                      <div
+                        class="up"
+                        :class="item.status === 0 ? 'opacity-5' : ''"
+                      ></div>
+                      <div
+                        class="down"
+                        :class="item.status === 0 ? 'opacity-1' : ''"
+                      ></div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <el-divider></el-divider>
@@ -109,13 +130,26 @@ export default {
         gender: "",
         major: "",
         school: "",
-        resumeId:'1',
-        skills:''
+        resumeId: "1",
+        skills: "",
       },
+      options: [
+        { lable: "年龄", status: "0", value: "born_year" },
+        // { lable: "最低薪资", status: "0", value: "salary_min" },
+        // { lable: "最高薪资", status: "0", value: "salary_max" },
+        // { lable: "地址", status: "0", value: "address" },
+      ],
     };
   },
   mounted() {
     this.getStudentList();
+  },
+  computed: {
+    showListSize() {
+      return this.pageList.total < this.condition.pageSize
+        ? this.pageList.total
+        : this.condition.pageSize;
+    },
   },
   methods: {
     getStudentList() {
@@ -138,9 +172,17 @@ export default {
       this.getStudentList();
     },
     searchByCondition() {
-      // console.log(1111);
-      console.log(this.condition);
       this.getStudentList();
+    },
+    change(item, index) {
+      console.log(item, index);
+      this.options[index].status === 0
+        ? (this.options[index].status = 1)
+        : (this.options[index].status = 0);
+      this.condition.sortBy = this.options[index].value;
+      this.condition.isAsc = this.options[index].status;
+      console.log(this.condition);
+      this.searchByCondition();
     },
   },
 };
@@ -148,13 +190,6 @@ export default {
 
 <style lang="less" scoped>
 .job_container {
-  // background-image: url("~@/assets/bg.png");
-  // background-color: #f2f2f2;
-  // position: relative;
-  // background-size: 1920px 1920px;
-  // background-position: center center;
-  // padding-top: 60px;
-  // padding-bottom: 60px;
   .container {
     width: 100%;
     // max-width: 1230px;
@@ -163,9 +198,7 @@ export default {
     // border: 1px solid sandybrown;
     .job_main {
       position: relative;
-      // background: #fafafa;
-      // border-radius: 10px;
-      // box-shadow: 1px 0 20px -9px rgba(0, 0, 0, 0.3);
+
       margin-left: auto;
       margin-right: auto;
       overflow: hidden;
@@ -185,6 +218,7 @@ export default {
         .jobtips {
           height: 52px;
           display: flex;
+          justify-content: space-between;
           // background: #2dced4;
           background-image: linear-gradient(
             200deg,
@@ -196,6 +230,18 @@ export default {
           .info {
             margin-top: 2%;
             padding: 0 10px;
+          }
+          .sort {
+            // width: 500px;
+
+            margin-top: 1%;
+            margin-right: 2%;
+            display: flex;
+            text-align: center;
+            // border: 1px saddlebrown solid;
+            span {
+              margin-top: 1.5%;
+            }
           }
         }
         .block {
@@ -241,35 +287,68 @@ export default {
               // padding-left: 3%;
             }
           }
-          // .search {
-          //   display: flex;
-          //   padding: 0 10%;
-          //   .pass_input {
-          //     // float: left;
-          //     // width: 215px;
-          //     margin-left: 10px;
-          //     position: relative;
-          //     // el-input__inner是el-input的input类名
-          //     & /deep/ .el-input__inner {
-          //       // border: none;
-          //       border-radius: 20px;
-          //       // height: 101%;
-          //     }
-          //     i {
-          //       position: absolute;
-          //       top: 13px;
-          //     }
-          //     .pass_button {
-          //       margin-top: 1px;
-          //       // border: #f2f2f2;
-          //       border: none;
-          //       border-radius: 20px;
-          //     }
-          //   }
-          // }
         }
       }
     }
   }
+}
+</style>
+<style lang="less" scoped>
+:root {
+  --animate-duration: 500ms;
+  --animate-delay: -2s;
+}
+.right {
+  padding: 0 20px;
+  height: 32px;
+  color: #505363;
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 10px;
+  border: 1px solid rgb(233, 231, 231);
+  display: flex;
+  justify-content: center;
+  line-height: 32px;
+  cursor: pointer;
+}
+.right:hover {
+  color: #217aff;
+  border: 1px solid #217aff;
+  .up {
+    border-bottom: 6px solid #217aff;
+  }
+  .down {
+    border-top: 6px solid #217aff;
+  }
+}
+.opacity-5 {
+  opacity: 0.5;
+}
+.opacity-1 {
+  opacity: 1 !important;
+}
+.box-icon {
+  height: 30px;
+  margin-top: 7px;
+  .up {
+    width: 0px; /*设置宽高为0，所以div的内容为空，从才能形成三角形尖角*/
+    height: 0px;
+    border-bottom: 6px solid #a3a5b3;
+    border-left: 4px solid transparent; /*transparent 表示透明*/
+    border-right: 4px solid transparent;
+    margin-bottom: 4px;
+  }
+  .down {
+    width: 0px;
+    height: 0px;
+    opacity: 0.5;
+    border-top: 6px solid #a3a5b3;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+  }
+}
+.box-icon div {
+  height: 10px;
+  margin-left: 4px;
 }
 </style>

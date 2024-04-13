@@ -39,7 +39,7 @@
         </div>
         <div class="exp">
           <div class="edu">
-            <span>{{ scoreForm.suggest }}</span>
+            <!-- <span>{{ scoreForm.suggest }}</span> -->
           </div>
           <!-- <div class="ski"><span>专业技能评价：</span></div>
           <div class="exp"><span>工作经验评价：</span></div>
@@ -60,17 +60,17 @@ export default {
   data() {
     return {
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
-      entryRod: 5,
+      entryRod: 0,
       rodNumber: null,
       scoreForm: {
-        // educationScore:'',
-        // certificateScore:'',
-        // skillsScore:'',
-        // experienceScore:'',
-        // personalScore:'',
-        // communicationScore:'',
-        // totalScore:'',
-        // suggest:''
+        educationScore:0,
+        certificateScore:0,
+        skillsScore:0,
+        experienceScore:0,
+        personalScore:0,
+        communicationScore:0,
+        totalScore:0,
+        suggest:''
       },
     };
   },
@@ -92,7 +92,7 @@ export default {
         .getAbilityScoreByStudentId()
         .then((resp) => {
           if (resp.data.code == 0) {
-            this.scoreForm = resp.data.data;
+            this.scoreForm = resp.data.data || this.scoreForm;
             this.entryRod = Number(this.scoreForm.totalScore)
             this.drawChart();
           } else this.$notify.error("获取失败,请重新上传");
@@ -221,8 +221,8 @@ export default {
                 value: [
                   this.scoreForm.educationScore,
                   this.scoreForm.skillsScore,
-                  this.scoreForm.experienceScore,
-                  this.scoreForm.personalScore,
+                  this.scoreForm.experienceScore ,
+                  this.scoreForm.personalScore ,
                   this.scoreForm.communicationScore,
                   this.scoreForm.certificateScore,
                 ],
@@ -237,8 +237,8 @@ export default {
       this.$bus.$emit("showDialog");
     },
   },
-  async mounted() {
-    await this.getScore();
+   async mounted() {
+    if(this.userInfo.resumeId) await this.getScore();
     console.log(this.scoreForm, "score");
     this.$bus.$on("getScore", this.getScore);
   },

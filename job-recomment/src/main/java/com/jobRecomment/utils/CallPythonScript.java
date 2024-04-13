@@ -30,6 +30,7 @@ public class CallPythonScript {
             }
             // 等待Python脚本执行完毕
             int exitCode = process.waitFor();
+            if(exitCode != 0) throw new IOException();
             System.out.println("Python脚本执行完毕，退出码：" + exitCode);
         } catch (IOException | InterruptedException e) {
             System.out.println("Python脚本执行出错");

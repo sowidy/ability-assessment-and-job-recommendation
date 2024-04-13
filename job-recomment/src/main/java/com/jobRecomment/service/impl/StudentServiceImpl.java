@@ -3,6 +3,7 @@ package com.jobRecomment.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,10 +21,7 @@ import com.jobRecomment.utils.ThreadLocalUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -106,6 +104,13 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public List<Student> getAllStudent(Integer size) {
         LambdaQueryWrapper<Student> wrapper = new LambdaQueryWrapper<>();
         wrapper.isNotNull(Student::getResumeId);
+        wrapper.isNotNull(Student::getAvatar);
+        wrapper.isNotNull(Student::getBornYear);
+        wrapper.isNotNull(Student::getEducation);
+        wrapper.isNotNull(Student::getEmail);
+        wrapper.isNotNull(Student::getGender);
+        wrapper.isNotNull(Student::getSchool);
+        wrapper.isNotNull(Student::getSkills);
         wrapper.last("LIMIT " + size);
         return baseMapper.selectList(wrapper);
     }
@@ -165,8 +170,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Override
     public PageDTO<Student> queryStudent(StudentQuery query) {
-        Page<Student> page =query.toMpPage();
+        Page<Student> page =query.toMpPage(new OrderItem(query.getSortBy(),query.getIsAsc()));
         QueryWrapper<Student> wrapper = new QueryWrapper<>();
+        wrapper.isNotNull("school");
         if (StringUtils.isNotBlank(query.getName())) {
             wrapper.like("name", query.getName());
         }
@@ -197,11 +203,45 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Override
     public List<RemarkVO> getAllRemark() {
+//        List<Student> list = baseMapper.getAllRemark();
+//        List<RemarkVO> vo = new ArrayList<>();
+//        for (Student s:list) {
+//            vo.add(BeanUtil.copyProperties(s,RemarkVO.class));
+//        }
+//        return vo;
+        // 获取所有的 Student 对象
         List<Student> list = baseMapper.getAllRemark();
-        List<RemarkVO> vo = new ArrayList<>();
-        for (Student s:list) {
-            vo.add(BeanUtil.copyProperties(s,RemarkVO.class));
+
+        // 创建一个列表保存remark字段的各位数字加总后的总和和对应的Student对象
+        List<Map.Entry<Integer, Student>> remarkSums = new ArrayList<>();
+
+        // 计算每个remark的各位数字加总后的总和
+        for (Student student : list) {
+            String remark = student.getRemark();
+            int sum = 0;
+            // 计算remark各位数字加总后的总和
+            for (char digit : remark.toCharArray()) {
+                sum += Character.getNumericValue(digit);
+            }
+            // 将总和和对应的Student对象添加到列表中
+            remarkSums.add(new AbstractMap.SimpleEntry<>(sum, student));
         }
+
+        // 对remarkSums列表按总和进行升序排序
+        remarkSums.sort(Comparator.comparingInt(Map.Entry::getKey));
+
+        // 创建一个用于保存结果的RemarkVO列表
+        List<RemarkVO> vo = new ArrayList<>();
+
+        // 从排序后的列表中选取前10个项或列表大小不满10的情况
+        for (int i = 0; i < Math.min(10, remarkSums.size()); i++) {
+            Student student = remarkSums.get(i).getValue();
+            // 将Student对象转换为RemarkVO对象
+            RemarkVO remarkVO = BeanUtil.copyProperties(student, RemarkVO.class);
+            vo.add(remarkVO);
+        }
+
+        // 返回结果列表
         return vo;
     }
 

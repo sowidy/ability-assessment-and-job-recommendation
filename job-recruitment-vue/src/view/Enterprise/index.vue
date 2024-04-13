@@ -66,9 +66,13 @@
                   <span slot="title"> 职位信息 </span>
                 </el-menu-item></router-link
               >
-              
-              <router-link class="link" to="/enterprise/setting">
+              <router-link class="link" to="/search">
                 <el-menu-item index="3">
+                  <span slot="title"> 搜索 </span>
+                </el-menu-item></router-link
+              >
+              <router-link class="link" to="/enterprise/setting">
+                <el-menu-item index="4">
                   <span slot="title"> 设置 </span>
                 </el-menu-item></router-link
               >
@@ -189,8 +193,10 @@ export default {
           return "1";
         case "/enterprise/titles":
           return "2";
-        case "/userinfo/setting":
+        case "/search":
           return "3";
+        case "/userinfo/setting":
+          return "4";
         default:
           return "1"; // Set a default value if no match found
       }

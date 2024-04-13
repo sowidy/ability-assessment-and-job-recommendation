@@ -23,8 +23,8 @@ public class StudentQuery extends PageQuery  {
     @ApiModelProperty("姓名")
     private String name;
 
-//    @ApiModelProperty(value = "年龄")
-//    private LocalDateTime bornYear;
+    @ApiModelProperty(value = "年龄")
+    private LocalDateTime bornYear;
 
     @ApiModelProperty("性别")
     private String gender;

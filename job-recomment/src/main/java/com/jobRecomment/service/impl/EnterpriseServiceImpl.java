@@ -55,6 +55,7 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
     public List<Enterprise> getAllAuthList(Integer size) {
 //        return lambdaQuery().eq(Enterprise::getEnterpriseAuth,0).list();
         QueryWrapper<Enterprise> queryWrapper = Wrappers.query();
+        queryWrapper.isNotNull("title");
         queryWrapper.eq("enterprise_auth", 0);
         queryWrapper.last("LIMIT " + size);
         return baseMapper.selectList(queryWrapper);
@@ -64,6 +65,7 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
     public PageDTO<Enterprise> conditionQuery(EnterpriseQuery query) {
         Page<Enterprise> page = query.toMpPage();
         QueryWrapper<Enterprise> wrapper = new QueryWrapper<>();
+        wrapper.isNotNull("title");
         if (StringUtils.isNotBlank(query.getName())) {
             wrapper.like("name", query.getName());
         }
